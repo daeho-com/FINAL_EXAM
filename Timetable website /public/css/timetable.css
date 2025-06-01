@@ -1,0 +1,99 @@
+/* 브라우저 기본 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 패딩, 보더 포함한 크기 계산 */
+  }
+
+body {
+    width : 100vW;
+    height : 100vh;
+    background-color: var(--bg-03);
+}
+
+.nav-bar-empty_box {
+    width : 100vw;
+    height : 13vh;
+}
+
+.timetable {
+    padding : 0 36px;
+}
+
+.timetable-text {
+    padding : 40px 58px;
+    font-size : 28px;
+    font-weight : 700;
+}
+
+.timetable-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.timetable-box-rowcell {
+    display : flex;
+}
+
+
+/* ────────────────────────────────────────── */
+/* 1. 타임테이블 컨테이너 그리드 설정        */
+/* ────────────────────────────────────────── */
+.timetable .timetable-box {
+    display: grid;
+    /* 첫 열은 시간, 다음 5열은 요일 슬롯 */
+    grid-template-columns: repeat(6, 1fr);
+    /* 각 행 높이 고정 (예: 50px) */
+    grid-auto-rows: 50px;
+    width: 100%;
+    border: 1px solid #eee;
+    margin : 0 auto;
+    max-width : 1200px;
+  }
+  
+  /* ────────────────────────────────────────── */
+  /* 2. .timetable-box-rowcell 래퍼 제거        */
+  /*    (display: contents로 내부 .cell-header 를 직접 그리드 아이템으로) */
+  /* ────────────────────────────────────────── */
+  .timetable .timetable-box-rowcell {
+    display: contents;
+  }
+  
+  /* ────────────────────────────────────────── */
+  /* 3. 공통 셀 스타일 (.cell-header)         */
+  /* ────────────────────────────────────────── */
+  .timetable .cell-header {
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    position: relative;            /* label 절대위치 기준 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .cell-header {
+    background-color: var(--bg-05);
+  }
+
+  .cell-header-first {
+    background-color: var(--bg-01);
+  }
+
+
+  /* 1. 체크박스 자체는 보이지 않도록 완전히 숨깁니다 */
+.timetable .cell-header input[type="checkbox"] {
+    display: none;
+  }
+  
+  /* 2. 레이블도 숨겨서 클릭 영역 표시용 UI만 남깁니다 */
+  .timetable .cell-header label {
+    display: none;
+  }
+  
+  /* 3. .selected 클래스가 붙은 셀 배경을 빨간색으로 */
+  .timetable .cell-header.selected {
+    background-color: red;
+  }
+
+  

@@ -1,0 +1,22 @@
+:root {
+    --logo-color : rgba(0, 0, 0, 1); /* 로고 이름 색깔 검정색*/
+    --line-01 : #9E9E9E; /*선 색깔 회색*/
+    --bg-01 : #FFF; /* 배경 하얀색 */
+    --bg-02 : #E6E6E6; /*배경 회색*/
+    --bg-03 : rgba(242, 242, 255);
+    --bg-05 : rgba(255, 252, 252, 1);
+    --bg-06 : #E5E4FC; /* 웹사이트 배경 살짝 보라 */
+    --input-02 : #6E6E6E;
+    --btn-01 : #FBF9F5;
+    --btn-02 : #4CC828; /* 버튼 초록색 */
+    --btn-03 : #D1C2C2;
+    --btn-06 : #2CFB2C;
+    --btn-07 : #CCFFC1;
+    --font-color-01 : #FF0D0D;
+    /* user-detail.ejs 에서 자주 사용하는 변수 */
+    --bg: #f8f8fc; 
+    --card-bg: #fff;
+    --line: #ddd;
+    --match: #f04e32;
+
+}

@@ -1,0 +1,101 @@
+<!-- views/partner-survey.ejs -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>스터디 상대 설문</title>
+  <link rel="stylesheet" href="/font/font.css">
+  <link rel="stylesheet" href="/color/color.css">
+  <link rel="stylesheet" href="/css/survey.css">
+  <link rel="stylesheet" href="/css/input02.css">
+  <link rel="stylesheet" href="/components/push-btn.css">
+  <link rel="stylesheet" href="/css/style_prefs_specific.css">
+ 
+</head>
+<body>
+  <%- include('../components/nav') %>
+  <div class="nav-bar-empty_box"></div>
+
+  <div class = "partner-question-text"><p>같이 스터디 하고 싶은 상대방에 대한 설문</p></div>
+
+  <form id="partner-survey-form" action ="/partner-survey" method="POST" class="survey-page-container partner">
+    <div class="survey-card"> 
+        
+        <div class="form-section"> 
+            <label>흡연여부를 선택해주세요</label>
+            <div class="selection-buttons-group" id="partner-smoking">
+                <button type="button" class="sel-btn" id="partner-smoking-no" data-value="no">비흡연자</button>
+                <button type="button" class="sel-btn" id="partner-smoking-yes" data-value="yes">흡연자</button>
+            </div>
+        </div>
+
+        <div class="form-section"> 
+            <label>만남 선호 방식을 선택해주세요</label> 
+            <div class="selection-buttons-group" id="partner-meetPref">
+                <button type="button" class="sel-btn" id="partner-meetPref-offline" data-value="offline">오프라인</button>
+                <button type="button" class="sel-btn" id="partner-meetPref-online" data-value="online">온라인</button>
+            </div>
+        </div>
+
+        <div class="form-section"> 
+          <label>공부 목적을 선택해주세요</label>
+          <div class="selection-buttons-group" id="partner-study-purpose-group">
+              <button type="button" class="sel-btn" id="partner-purpose-exam" data-value="시험 대비">시험 대비</button>
+              <button type="button" class="sel-btn" id="partner-purpose-cert" data-value="자격증 공부">자격증 공부</button>
+              <button type="button" class="sel-btn" id="partner-purpose-hw" data-value="과제">과제</button>
+              <button type="button" class="sel-btn" id="partner-purpose-lang" data-value="영어회화 / 언어 교환">영어회화 / 언어 교환</button>
+              <button type="button" class="sel-btn" id="partner-purpose-job" data-value="취업준비">취업준비</button>
+              <button type="button" class="sel-btn" id="partner-purpose-self" data-value="자습">자습</button>
+              <button type="button" class="sel-btn" id="partner-purpose-coding" data-value="코딩">코딩</button>
+              <button type="button" class="sel-btn" id="partner-purpose-etc" data-value="기타">기타</button>
+          </div>
+        </div>
+
+          <div class="form-section"> 
+            <label>선호하는 스터디 분위기</label> 
+            <div class="selection-buttons-group" id="partner-study-atmosphere-group">
+                <button type="button" class="sel-btn" id="partner-atmosphere-quiet" data-initial-selected="true" data-value="조용히 각자 집중">조용히 각자 집중</button>
+                <button type="button" class="sel-btn" id="partner-atmosphere-explain" data-value="상호 설명">상호 설명</button>
+                <button type="button" class="sel-btn" id="partner-atmosphere-qa" data-value="질문 위주">질문 위주</button>
+                <button type="button" class="sel-btn" id="partner-atmosphere-free" data-value="자유롭게 토론">자유롭게 토론</button>
+                <button type="button" class="sel-btn" id="partner-atmosphere-any" data-value="상관 없다">상관 없다</button>
+            </div>
+         </div>
+
+          <div class="form-section"> 
+            <label>말하기 스타일</label>
+            <div class="selection-buttons-group" id="partner-speaking-style-group">
+                <button type="button" class="sel-btn" id="partner-style-leader" data-value="리더형">리더형</button>
+                <button type="button" class="sel-btn" id="partner-style-listener" data-value="경청형">경청형</button>
+                <button type="button" class="sel-btn" id="partner-style-idea" data-value="아이디어 제안형">아이디어 제안형</button>
+            </div>
+         </div>
+
+         <div class="form-section">
+          <label>환경민감도</label>
+            <div class="selection-buttons-group" id="partner-env-sensitivity-group">
+                <button type="button" class="sel-btn" id="partner-env-quiet" data-value="조용한 환경 선호">조용한 환경 선호</button>
+                <button type="button" class="sel-btn" id="partner-env-noise" data-value="적당한 백색소음">적당한 백색소음</button>
+                <button type="button" class="sel-btn" id="partner-env-ignore" data-value="소음 신경 안씀">소음 신경 안씀</button>
+            </div>
+         </div>
+      </div>
+
+        <!-- ★ 히든 필드: JS에서 선택값을 여기에 채워 넣습니다 -->
+        <input type="hidden" name="smoking_status" id="hidden-partner-smoking" value="">
+        <input type="hidden" name="meet_pref" id="hidden-partner-meetPref" value="">
+        <input type="hidden" name="study_goal" id="hidden-partner-study-purpose" value="">
+        <input type="hidden" name="vibe_pref" id="hidden-partner-vibe_pref" value="">
+        <input type="hidden" name="speaking_style" id="hidden-partner-speaking_style" value="">
+        <input type="hidden" name="noise_sensitivity" id="hidden-partner-noise_sensitivity" value="">
+
+        <div class="push-btn"> 
+            <button type = "submit" id="continue-btn" class="btn-01" disabled>계속</button>
+        </div>
+    </div>
+</form>
+
+  <script src="/js/partner-survey.js" defer></script>
+</body>
+</html>

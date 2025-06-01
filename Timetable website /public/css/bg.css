@@ -1,0 +1,55 @@
+body {
+    font-family: system-ui;
+    margin: 0;
+    background: #f5f5f5;
+  }
+  
+  .bg_contain {
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    min-height: 100vh;
+  }
+  
+  .bg_scroll_view {
+    box-sizing: border-box;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #FFFFFF;
+    border-radius: 40px;
+    padding: 0 23px;
+    margin: 20px;
+  }
+  
+  .top_column {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 9px 17px;
+    margin-bottom: 12px;
+  }
+  
+  .top_image {
+    width: 7.5vw;
+    height: auto;
+    margin-left: 4px;
+    object-fit: cover; /* 왜곡 방지 */
+  }
+  
+  .top_text {
+    color: #000000;
+    font-size: clamp(16px, 5vw, 40px);
+    font-weight: bold;
+    margin: 24px 0 0 16px;
+  }
+  
+  .top_divider {
+    width: 100%;
+    height: 1px;
+    background: #9E9E9E;
+    border: none;
+    margin-top: 3vh;
+  }

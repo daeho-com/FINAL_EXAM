@@ -1,0 +1,171 @@
+/* 브라우저 기본 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 패딩, 보더 포함한 크기 계산 */
+  }
+
+body {
+    width : 100%;
+    height : 100%;
+}
+
+.nav-bar-empty_box {
+    width : 100vw;
+    height : 13vh;
+}
+
+/* fixed 네비게이션이 위에 보이도록 */
+.nav-bar {
+    background-color: var(--bg-03);
+}
+
+.both_contain {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap; 
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 24px;
+    box-sizing: border-box;
+
+}
+
+/* 이메일 인증 안내 */
+.e_mail_container {
+    width: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.school_email_text {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+.school_email_box {
+    width: 90%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #edb1e4;
+    border-radius: 8px;
+    background-color: #fff0fa;
+    margin-bottom: 20px;
+}
+
+.school_email_box:focus {
+    border-color: #b764ab;
+    background-color: #ffe5f7;
+    outline: none;
+}
+
+.mail_btn {
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #7b9cff;
+    color: white;
+    width: 100%;
+}
+
+.mail_btn:hover {
+    background-color: #5a7dde;
+}
+
+/* 축하 컨테이너 */
+.cog_container {
+    width: 100%;
+    max-width: 480px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.cog_container_logo {
+    width: 64px;
+    margin: 0 auto 20px;
+}
+
+.cog_container_title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.cog_container_text {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+/* 단계별 설명 카드 */
+.cog_container_main {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    text-align: left;
+}
+
+.cog_img {
+    width: 40px;
+    margin-right: 16px;
+}
+
+.cog_img_1 {
+    width: 100%;
+    height: auto;
+}
+
+.cog_container_part {
+    flex: 1;
+}
+
+.cog_container_strong_text_part,
+.cog_container2_strong_text_part {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.cog_container_text_part {
+    font-size: 13px;
+    color: #555;
+}
+
+/* 로그인 버튼 */
+.btn2_login {
+    margin-top: 30px;
+    padding: 14px;
+    background: linear-gradient(45deg, #f36b5c, #eb5757);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn2_login:hover {
+    background: linear-gradient(45deg, #d94841, #c43737);
+}
+
+/* certification-stage.css 파일 맨 아래에 추가 */
+.error-message {
+    color: #e74c3c;   /* 붉은색 */
+    margin: 1rem 0;
+    text-align: center;
+  }

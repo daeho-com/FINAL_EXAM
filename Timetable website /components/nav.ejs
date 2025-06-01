@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nav-bar</title>
+    <link rel="stylesheet" href="/color/color.css">
+    <style>
+        .nav-bar {
+            width : 100vw;
+            padding : 5px 17px;
+            display : flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 0;
+            
+            /* 상단에 고정 */           
+            position: fixed;
+            top : 0;
+            left : 0;
+            z-index : 999;
+        }
+        
+        .nav-bar_logo-box {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* flex 자식 간의 간격*/
+            border-bottom: 1px solid var(--line-01);
+
+            width : 1500px;
+            margin: 0 auto; /*반응형 웹사이트로 중앙에 배치되도록 하기 위함*/
+        }
+
+        .nav-bar_logo-img {
+            width : 100px;
+            height : 100px;
+            padding : 4px;
+            object-fit: contain; /* 또는 cover */
+        }
+
+        .nav-bar_logo_name {
+            color : var(--logo-color);
+            font-family: 'Inter', sans-serif;
+            font-size : 44px;
+            font-style : normal; /* 기울임 없음 */
+            font-weight : 700; /* bold 수준 */
+            line-height : normal; /* 줄간격 */
+        }
+    </style>
+</head>
+<body>
+    <nav class = "nav-bar">
+        <div class = "nav-bar_logo-box">
+            <img src="/img/img01.png" class = "nav-bar_logo-img">
+            <h1 class = "nav-bar_logo_name">GBC</h1>
+        </div>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,125 @@
+:root {
+    --bg: #f8f8fc;
+    --card-bg: #fff;
+    --line: #ddd;
+    --match: #f04e32;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Noto Sans', sans-serif;
+    background: var(--bg);
+  }
+
+  .nav-bar-empty_box {
+    width : 100vw;
+    height : 13vh;
+  }
+    /* fixed 네비게이션이 위에 보이도록 */
+    .nav-bar {
+        background-color: var(--bg-03);
+    }
+
+  
+  .container {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    gap: 40px;
+  }
+  
+  /* ── 왼쪽 프로필 카드 ───────────────────── */
+  .profile-card {
+    flex: 0 0 300px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .profile-card .avatar {
+    display: block;
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+  }
+  .profile-card h2 {
+    margin: 0 0 4px;
+  }
+  .profile-card p {
+    margin: 0 0 16px;
+    color: #666;
+  }
+  .details dt {
+    font-weight: 600;
+    margin-top: 12px;
+  }
+  .details dd {
+    margin: 4px 0 0 16px;
+    color: #333;
+  }
+  
+  /* ── 오른쪽 메인 ───────────────────────── */
+  .main-content {
+    flex: 1;
+  }
+  .main-content h3 {
+    margin-top: 0;
+  }
+  
+  /* 스케줄 그리드 */
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 40px;
+    border: 1px solid var(--line);
+  }
+  .cell {
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cell.header {
+    background: var(--card-bg);
+    font-weight: 600;
+  }
+  .cell.time {
+    background: var(--card-bg);
+    color: #666;
+  }
+  .cell.slot.match {
+    background: var(--match);
+  }
+  
+  /* ── 텍스트 필드 ───────────────────────── */
+  .text-field {
+    margin-top: 24px;
+  }
+  .text-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .value {
+    background: var(--card-bg);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 12px 16px;
+  }
+  
+  /* ── 버튼 ─────────────────────────────── */
+  .btn-send {
+    margin-top: 32px;
+    padding: 16px 60px;
+    background: linear-gradient(45deg, #f04e32, #ff7854);
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    font-weight: 600;
+    float : right;
+    font-size : 20px;
+  }
+  

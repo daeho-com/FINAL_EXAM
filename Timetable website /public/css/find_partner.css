@@ -1,0 +1,138 @@
+/* 브라우저 기본 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 패딩, 보더 포함한 크기 계산 */
+  }
+
+body {
+    width : 100%;
+    height : 100%;
+}
+
+.nav-bar-empty_box {
+    width : 100vw;
+    height : 13vh;
+}
+
+/* fixed 네비게이션이 위에 보이도록 */
+.nav-bar {
+    background-color: var(--bg-03);
+}
+  .main-wrap {
+    width: 100vw;
+    min-height: 100vh;
+    background: white;
+    overflow: hidden;
+    border-radius: 40px;
+    position: relative;
+  }
+  .header-bar {
+    width: 100%;
+    padding-top: 35px;
+    padding-left: 10px;
+    box-sizing: border-box;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .logo-img {
+    width: 90px;
+    height: 90px;
+    display: block;
+    margin-left: 30px;
+  }
+  .logo-title {
+    color: #111;
+    font-size: 44px;
+    font-family: Inter, sans-serif;
+    font-weight: 700;
+    margin-left: 15px;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid #9E9E9E;
+    margin-top: 24px;
+    margin-bottom: 0;
+    width: 97%;
+  }
+  .page-title {
+    position: absolute;
+    left: 121px;
+    top: 176px;
+    color: black;
+    font-size: 36px;
+    font-family: SUIT, sans-serif;
+    font-weight: 700;
+    word-wrap: break-word;
+  }
+  .filter-btns {
+    position: absolute;
+    left: 140px;
+    top: 267px;
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+  .filter-btn {
+    padding: 12px 20px;
+    background: white;
+    border-radius: 12px;
+    outline: 1px #646262 solid;
+    outline-offset: -1px;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
+    color: #111111;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .filter-btn:hover {
+    background: #F6F6F6;
+  }
+  .table-box {
+    width: 1200px;
+    position: absolute;
+    left: 116px;
+    top: 337px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  .table-row {
+    display: flex;
+    align-items: center;
+  }
+  .header-row {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    background: #F6F6F6;
+  }
+  .table-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    word-wrap: break-word;
+  }
+  .cell-id { width: 80px; height: 80px; }
+  .cell-user { width: 80px; height: 80px; }
+  .cell-name { width: 200px; height: 80px; }
+  .cell-age { width: 150px; height: 80px; }
+  .cell-grade { width: 150px; height: 80px; }
+  .cell-dept { width: 300px; height: 80px; }
+  .cell-uni { width: 240px; height: 80px; }
+  .table-cell img {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+  }

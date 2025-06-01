@@ -1,0 +1,249 @@
+/* survey.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    background-color: var(--bg-03); /* Light lavender background */
+    font-family: 'SUIT', sans-serif; /* */
+    display: flex; /* For centering the card */
+    justify-content: center; /* For centering the card */
+    align-items: center; /* For centering the card */
+    padding-top: 13vh; /* Assuming navbar height from previous context, adjust if nav.ejs is different */
+    padding-bottom: 5vh;
+    flex-direction: column;
+}
+
+/* fixed 네비게이션이 위에 보이도록 */
+.nav-bar {
+    background-color: var(--bg-03);
+}
+
+.survey-page-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align card to the top considering padding-top on body */
+}
+
+.survey-card {
+    background-color: var(--bg-01); /* White card background */
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 40px 50px;
+    width: 100%;
+    max-width: 900px; /* Adjust max-width as needed for the two-column layout */
+}
+
+.survey-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 30px 60px; /* Row gap and Column gap */
+    margin-bottom: 40px; /* Space before the "계속" button */
+}
+
+.survey-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between form sections in a column */
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-section label {
+    font-size: 16px; /* Based on image */
+    font-weight: 600; /* Slightly bolder labels */
+    color: #333;
+    margin-bottom: 12px; /* Space between label and input/toggle */
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-wrapper input[type="text"] {
+    flex-grow: 1;
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid #DCDCDC; /* Light grey border, similar to image */
+    border-radius: 8px;
+    background-color: #F7F7F7; /* Very light grey input background from image */
+    font-size: 16px;
+    color: #333;
+}
+
+.input-wrapper input[type="text"]::placeholder {
+    color: #AAA;
+}
+
+.input-wrapper input[type="text"]:focus {
+    outline: none;
+    border-color: var(--btn-confirm-bg, #8faaf6); /* Highlight focus with confirm button blue */
+    box-shadow: 0 0 0 2px rgba(143, 170, 246, 0.2);
+}
+
+
+.confirm-btn {
+    height: 48px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--btn-confirm-bg, #8faaf6); /* Light blue from age_grade_id.css & image */
+    color: var(--bg-01, #fff); /* White text */
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+}
+
+.confirm-btn:hover {
+    background-color: #7998e6; /* Slightly darker blue on hover */
+}
+
+.confirm-btn:disabled {
+    background-color: #B0C4DE; /* Lighter blue when disabled */
+    cursor: not-allowed;
+}
+
+
+.confirm-msg {
+    font-size: 13px; /* Smaller text for confirmation message */
+    color: var(--btn-02); /* Green for success message */
+    margin-top: 8px;
+    min-height: 1.2em; /* Reserve space */
+}
+
+.toggle-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.toggle-btn {
+    flex: 1;
+    height: 48px;
+    border: 1px solid var(--line-01, #9E9E9E); /* Grey border */
+    border-radius: 8px;
+    background-color: var(--bg-01, #fff); /* White background for unselected */
+    font-weight: 500;
+    font-size: 16px;
+    color: #555;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.toggle-btn:hover {
+    border-color: #777;
+}
+
+.toggle-btn.active {
+    background-color: var(--btn-06, #2CFB2C); /* Bright green from color.css */
+    border-color: var(--btn-06, #2CFB2C); /* Matching green border */
+    color: var(--bg-01, #fff); /* White text */
+    font-weight: 600;
+}
+
+.toggle-btn:disabled:not(.active) {
+    background-color: #f0f0f0;
+    border-color: #e0e0e0;
+    color: #aaa;
+    cursor: not-allowed;
+}
+.toggle-btn.active:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+
+/* "계속" button styling is primarily from push-btn.css */
+/* Ensure .push-btn centers the button */
+.push-btn {
+    margin-top: 20px; /* Overriding if necessary from components/push-btn.css */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-01 { /* From push-btn.css, ensure it matches the disabled style in image */
+    padding : 12px 60px; /* */
+    font-size : 20px; /* */
+    font-weight : 500; /* */
+    border-radius: 24px; /* */
+    border : none; /* */
+    cursor : pointer; /* */
+}
+
+.btn-01:disabled, .btn-01:not(.active) { /* Ensure disabled state is light grey */
+    background-color: var(--btn-03, #D1C2C2); /* Light grey from color.css */
+    color: var(--bg-01, #fff); /* */
+    cursor: not-allowed;
+}
+
+.btn-01.active {
+    background-color: var(--btn-02, #4CC828); /* Green from color.css */
+    color : var(--bg-01); /* */
+}
+
+.partner {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.partner-question-text {
+    display: flex;
+    margin-top: 28px;
+    margin-bottom: 28px;
+    color : var(--font-color-01);
+    font-size : 20px;
+    font-weight : 600;
+}
+
+.form-section {
+    margin-bottom : 20px;
+}
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    body {
+        padding-top: 10vh; /* Adjust if navbar height changes on mobile */
+        align-items: flex-start; /* Align to top on mobile */
+    }
+    .survey-card {
+        margin: 20px;
+        padding: 25px;
+        max-width: 100%;
+    }
+    .survey-grid {
+        grid-template-columns: 1fr; /* Stack columns on smaller screens */
+        gap: 25px;
+    }
+    .form-section label {
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+    .input-wrapper input[type="text"],
+    .confirm-btn,
+    .toggle-btn {
+        height: 44px;
+        font-size: 14px;
+    }
+    .confirm-btn {
+        padding: 0 15px;
+    }
+    .toggle-buttons {
+        flex-direction: column; /* Stack toggle buttons if needed, or keep side-by-side if space allows */
+    }
+}

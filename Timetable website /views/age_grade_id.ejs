@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>age_grade_id</title>
+
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="/css/age_grade_id.css" />
+  <link rel="stylesheet" href="/color/color.css" />
+  <link rel="stylesheet" href="/font/font.css" />
+  <link rel="stylesheet" href="/components/push-btn.css" />
+
+  <!-- 네비게이션 포함 -->
+  <%- include('../components/nav') %>
+</head>
+<body>
+  <!-- 네비게이션 빈 공간 확보 -->
+  <div class="nav-bar-empty_box"></div>
+
+  <main class="survey-container">
+    <form action="/input01" method="POST" id="survey-form" enctype="multipart/form-data">
+      <!-- 그리드 래퍼 -->
+      <div class="survey-grid">
+    
+        <!-- 왼쪽 컬럼: 입력 세 그룹 -->
+        <div class="left-col">
+          <!-- 1. 나이 -->
+          <div class="form-row">          
+              <label for="age" class = "form-row-text">당신의 나이를 입력해주세요</label>
+              <div class = "input-group">
+                  <input type="text" id="age" name="age" placeholder="나이" />
+                  <button type="button" id="confirm-age" class="confirm-btn">확인</button>
+              </div>
+            <p class="confirm-msg" id="msg-age"></p>
+            <!-- JS가 “나이가 입력되었습니다”를 넣어 줍니다 -->
+          </div>
+          <!-- 2. 학년 -->
+          <div class="form-row">
+              <label for="grade" class = "form-row-text">학년을 입력해주세요</label>
+              <div class = "input-group">
+                  <input type="text" id="grade" name="grade" placeholder="학년" />
+                  <button type="button" id="confirm-grade" class="confirm-btn">확인</button>
+              </div>
+            <p class="confirm-msg" id="msg-grade"></p>
+            <!-- JS가 “학년이 입력되었습니다”를 넣어 줍니다 -->
+          </div>
+          <!-- 3. 카카오톡 ID -->
+          <div class="form-row">      
+              <label for="kakao" class = "form-row-text">카카오톡 아이디를 알려주세요</label>
+              <div class = "input-group">
+                  <input type="text" id="kakao" name="kakaoId" placeholder="카카오톡 아이디" />
+                  <button type="button" id="confirm-kakao" class="confirm-btn">확인</button>
+              </div>
+              <p class="confirm-msg" id="msg-kakao"></p>
+              <!-- JS가 “아이디가 입력되었습니다”를 넣어 줍니다 -->
+          </div>
+
+          <div class="form-row">      
+            <label for="avatar" class = "form-row-text">대표 이미지를 선택해주세요(선택, jpg만)</label>
+            <div class = "input-group">
+                <input type="file" id="avatar" name="avatar" placeholder="이미지 형식은 .jpg 입니다" accept=".jpg" />
+            </div>
+            <p class="confirm-msg" id="msg-avatar"></p>
+            <!-- JS가 “기본 프로필 사진이 등록되었습니다” 넣어 줍니다 -->
+         </div>
+        </div>
+    
+        <!-- 오른쪽 컬럼: 토글 두 그룹 -->
+        <div class="right-col">
+          <!-- 흡연여부 -->
+          <div class = "form-detail">
+            <label class = "form-row-text">흡연여부를 선택해주세요</label>
+            <div class=" toggle-group">
+              <input type="hidden" name="smokingStatus" id="smokingStatus" value="">
+              <button type="button" id="smoke-no" class="toggle-btn" data-value="no">비흡연자</button>
+              <button type="button" id="smoke-yes" class="toggle-btn" data-value="yes">흡연자</button>
+            </div>
+          </div>
+          <!-- 만남 선호 -->
+          <div class = "form-detail">
+            <label class = "form-row-text">만남 선호 방식을 선택해주세요</label>
+            <div class=" toggle-group">
+              <input type="hidden" name="meetPref" id="meetPref" value="">
+              <button type="button" id="meet-offline" class="toggle-btn" data-value="offline">오프라인</button>
+              <button type="button" id="meet-online" class="toggle-btn" data-value="online">온라인</button>
+            </div>
+          </div>
+        </div>
+    
+      </div>
+    </form>
+  </main>
+  
+  <!-- push 버튼 -->
+  <div class = "push-btn">
+    <button type="submit" form="survey-form" id="save-btn" class="btn-01" disabled>계속</button>
+  </div>
+
+  <!-- ■ 페이지 전용 스크립트 -->
+  <script src="/js/age_grade_id.js" defer></script>
+</body>
+</html>

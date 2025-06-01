@@ -1,0 +1,70 @@
+/* 브라우저 기본 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 패딩, 보더 포함한 크기 계산 */
+  }
+
+body {
+    width : 100vW;
+    height : 100vh;
+    background-color: var(--bg-03);
+}
+
+.nav-bar-empty_box {
+    width : 100vw;
+    height : 13vh;
+}
+
+/* fixed 네비게이션이 위에 보이도록 */
+.nav-bar {
+    background-color: var(--bg-03);
+}
+
+.mbti-question {
+    padding : 0 36px;
+}
+
+.mbti-question-text {
+    padding : 40px 58px;
+    font-size : 28px;
+    font-weight : 700;
+}
+
+.mbti-question-text p {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  /* 4열 × 4행 그리드 */
+  .mbti-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  /* 각 셀 */
+  .mbti-cell {
+    background: var(--bg-06);
+    border-radius: 16px;
+    text-align: center;
+    padding: 16px;
+    cursor: pointer;           /* 마우스 올리면 pointer */
+    transition: background 0.2s;
+    cursor : pointer;
+  }
+  .mbti-cell img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+    background-color: var(--bg-01);
+    border-radius: 50px;
+  }
+  .mbti-cell p {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+  /* 선택된 셀 */
+  .mbti-cell.selected {
+    border : 5px solid var(--btn-06);
+  }

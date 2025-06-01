@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Partner MBTI 설문</title>
+    <link rel="stylesheet" href="/css/mbti.css" />
+    <link rel="stylesheet" href="/color/color.css" />
+    <link rel="stylesheet" href="/font/font.css" />
+    <!-- 네비게이션 포함 -->
+    <%- include('../components/nav') %>
+    <link rel="stylesheet" href="/components/push-btn.css" />
+</head>
+<body>
+    <div class="nav-bar-empty_box"></div>
+
+    <main class="mbti-question">
+      <form id="partner-mbti-form" action="/partner-survey/mbti" method="POST">
+            <div class="mbti-question-text">
+              <p>상대방 MBTI 취향을 선택하세요</p>
+            </div>
+
+            <!-- 선택된 값을 서버로 넘길 hidden input -->
+            <input type="hidden" name="mbti" id="mbti-input" value="" />
+
+            <!-- MBTI 아이콘 그리드 -->
+            <div class="mbti-grid">
+                <% 
+                const types = [
+                    'ESTJ','ESTP','ESFJ','ESFP',
+                    'ENTJ','ENTP','ENFJ','ENFP',
+                    'ISTJ','ISTP','ISFJ','ISFP',
+                    'INTJ','INTP','INFJ','INFP'
+                ]; 
+                %>
+                <% types.forEach(type => { %>
+                  <div class="mbti-cell" data-type="<%= type %>">
+                    <!-- public/img/ESTJ.png 등 아이콘 파일 배치 -->
+                    <img src="/img/<%= type %>.png" alt="<%= type %> 아이콘" />
+                    <p><%= type %></p>
+                  </div>
+                <% }); %>
+            </div>
+
+            <div class="push-btn">
+                <button type="submit" id="save-btn" class="btn-01" disabled>
+                  마치기
+                </button>
+            </div>
+      </form>
+    </main>
+
+    <script src="/js/partner_mbti_survey.js" defer></script>
+</body>
+</html>
