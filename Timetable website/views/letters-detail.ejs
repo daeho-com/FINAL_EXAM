@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>받은 편지 목록</title>
+  <link rel="stylesheet" href="/css/letters.css">
+  <link rel="stylesheet" href="/color/color.css" />
+  <link rel="stylesheet" href="/font/font.css" />
+</head>
+<body>
+  <%- include('../components/nav') %>
+  <div class = "nav-bar-empty_box"></div>
+
+  <div class="detail-header">
+    <img src="<%= letter.avatar_url %>" alt="<%= letter.name %> 아바타" class="letter-icon">
+    <span><%= letter.name %> 님의 편지</span>
+  </div>
+  
+  <% if (letter.status === 'pending') { %>
+    <!-- **아직 응답 전(pending)** -->
+    <div class="letter-image">
+      <img src="/img/letter.png" alt="편지">
+      <p>편지가 도착했어요<br>편지를 클릭하여 내용을 확인하세요.</p>
+    </div>
+  
+    <div class="letter-content hidden">
+      <pre>
+    안녕하세요!
+    저는 “<%= letter.university %>” “<%= letter.department %>” 
+    “<%= letter.grade %>학년”에 재학 중인 “<%= letter.name %>”입니다.
+    
+    상세페이지를 보고 정말 잘 맞을 것 같아
+    함께 스터디하고 싶어 연락드려요!
+      </pre>
+      <a href="/users/<%= letter.sender_id %>">
+        “<%= letter.name %>” 상세페이지 보기
+      </a>
+    </div>
+  
+    <!-- ★ 여기에 수락/거절 버튼을 오직 receiver만 보이게 -->
+    <% if (currentUserId === letter.receiver_id) { %>
+      <div class="actions">
+        <button class="btn-accept">수락하기</button>
+        <button class="btn-reject">거절하기</button>
+      </div>
+    <% } %>
+  <% } else if (letter.status === 'accepted') { %>
+    <!-- **수락된 편지** -->
+    <div class="result-message accepted">
+      <p>🤝 축하드려요! 상대방이 수락했습니다!!</p>
+    </div>
+
+  <% } else { %>
+    <!-- **거절된 편지** -->
+    <div class="result-message rejected">
+      <p>😔 거절 당하셨습니다 ㅠ.ㅠ</p>
+    </div>
+  <% } %>
+
+  <script src="/js/letters.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    background-color: #eef2f5;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  
+  /* 레이아웃: 화면 비율 유지 */
+  .puple_container1,
+  .white_container {
+    flex: 1 1 100%;
+    height: auto;
+    min-height: 50vh;
+  }
+  
+  /* 데스크탑 화면에서는 좌우 분할 비율 고정 */
+  @media (min-width: 1024px) {
+    .puple_container1 {
+      flex: 0 0 55%;
+    }
+  
+    .white_container {
+      flex: 0 0 45%;
+    }
+  }
+  
+  /* puple_container1 스타일 */
+  .puple_container1 {
+    background-color: var(--bg-06);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .puple_container1_header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .puple_container1_logo {
+    width: 120px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .puple_container1_title {
+    font-size: 5vw;
+    font-weight: bold;
+    color: #000000;
+  }
+  
+  /* 구분선 */
+  .puple_container1_divider {
+    height: 2px;
+    background-color: #000;
+    width: 100%;
+    margin: 20px 0 60px 0;
+    border: none;
+  }
+  
+  /* 콘텐츠 블록 */
+  .puple_container1_block {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: var(--bg-06);
+  }
+  
+  .puple_container1_subtitle {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #000;
+    margin: 20px 0 50px;
+  }
+  
+  .puple_container1_text {
+    font-size: 1rem;
+    color: #000;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  
+  /* 버튼 */
+  .btn1 {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 80%;
+    margin-bottom: 100px;
+  }
+  
+  .btn1_primary {
+    background-color: white;
+    color: rgb(196, 158, 232);
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn1_primary:hover {
+    background-color: #ddd;
+  }
+  
+  /* white_container 스타일 */
+  .white_container {
+    background-color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .white_container_logo {
+    width: 120px;
+    height: auto;
+    margin: 0 auto 60px auto;
+  }
+  
+  .white_container_title,
+  .white_container_text {
+    text-align: center;
+    color: #000;
+    line-height: 1.6;
+  }
+  
+  .white_container_title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .white_container_text {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+  }
+  
+  .white_container_Qna_1 {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 40px 0;
+  }
+  
+  .check_image {
+    width: 80px;
+    height: auto;
+  }
+  
+  .white_container_part_1 {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #000;
+  }
+  
+  .white_container_strong_text_part_1 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  /* 버튼2 */
+  .btn2 {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-self: center;
+    width: 100%;
+    max-width: 300px;
+    margin-top: 40px;
+  }
+  
+  .btn2_agree {
+    background-color: #2c64f3;
+    color: white;
+  }
+  
+  .btn2_agree:hover {
+    background-color: #1a48c2;
+  }
+
+  /* firstpage.css */
+.heart-image {
+    display: block;
+    margin: 40px auto;
+    width: 100px;   /* 원하는 가로 크기(px) */
+    height: auto;  /* 비율에 맞춰 높이 자동 조절 */
+  }
+
+  /* 비활성화 상태일 때 보여줄 스타일 */
+.btn1_primary:disabled {
+    opacity: 0.5;         /* 반투명 */
+    cursor: not-allowed;  /* 금지 커서 */
+  }
+
+  /* firstpage.css 파일 맨 아래에 추가 */
+.btn1_primary.active-green {
+    background-color: #7DC867 !important;
+    color: white         !important;
+  }

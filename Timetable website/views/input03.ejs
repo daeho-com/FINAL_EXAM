@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GBC 스타일 환경설정</title>
+    <link rel="stylesheet" href="/font/font.css">
+    <link rel="stylesheet" href="/color/color.css">
+    <link rel="stylesheet" href="/css/survey.css"> 
+    <link rel="stylesheet" href="/css/style_prefs_specific.css"> 
+    <link rel="stylesheet" href="/components/push-btn.css">
+</head>
+<body>
+    <%- include('../components/nav') %>
+    <!-- 네비게이션 빈 공간 확보 -->
+    <div class="nav-bar-empty_box"></div>
+    <form id="style-prefs-form" action="/input03" method="POST">
+        <div class="survey-page-container">
+            <div class="survey-card">
+                <!-- ★ 히든 필드들 ★ -->
+                <input type="hidden" name="speaking_style" id="hidden-speaking-style"   value="">
+                <input type="hidden" name="noise_sensitivity"  id="hidden-env-sensitivity" value="">
+                <input type="hidden" name="charm_point"      id="hidden-charm-point"     value="">
+                <input type="hidden" name="strength"   id="hidden-strength-point"  value="">
+                <div class="form-section"> 
+                    <label>말하기 스타일</label>
+                    <div class="selection-buttons-group" id="speaking-style-group">
+                        <button type="button" class="sel-btn" id="style-leader" data-value="리더형">리더형</button>
+                        <button type="button" class="sel-btn" id="style-listener" data-value="경청형">경청형</button>
+                        <button type="button" class="sel-btn" id="style-idea" data-value="아이디어 제안형">아이디어 제안형</button>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label>환경민감도</label>
+                    <div class="selection-buttons-group" id="env-sensitivity-group">
+                        <button type="button" class="sel-btn" id="env-quiet" data-value="조용한 환경 선호">조용한 환경 선호</button>
+                        <button type="button" class="sel-btn" id="env-noise" data-value="적당한 백색소음">적당한 백색소음</button>
+                        <button type="button" class="sel-btn" id="env-ignore" data-value="소음 신경 안씀">소음 신경 안씀</button>
+                    </div>
+                </div>
+
+                <div class="form-section"> 
+                    <label for="charm-point">내가 생각하는 나의 매력 포인트 (편지에 해당 내용이 소개됩니다)</label>
+                    <textarea id="charm-point" class="text-input" rows="3" placeholder="예) 끈기, 건실함."></textarea>
+                </div>
+
+                <div class="form-section">
+                    <label for="strength-point">나의 가장 큰 장점 (편지에 해당 내용이 소개됩니다)</label>
+                    <textarea id="strength-point" class="text-input" rows="3" placeholder="예) 누구보다 열심히 합니다."></textarea>
+                </div>
+
+                <div class="push-btn">
+                    <button type="submit" id="submit-style-prefs-btn" class="btn-01" disabled>계속</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script src="/js/style_prefs.js"></script>
+</body>
+</html>

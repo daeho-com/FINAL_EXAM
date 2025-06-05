@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ACCOUNT</title>
+        <link rel="stylesheet" href="/css/create_account.css">
+        <link rel="stylesheet" href="/color/color.css" />
+        <link rel="stylesheet" href="/font/font.css" />
+    </head>
+    <body>
+        <%- include('../components/nav') %>
+        <div class = "nav-bar-empty_box"></div>
+        
+        <form action="/certification-stage" method = "POST" class="main_column">
+            <input type="hidden" name="action" value="verify"/>
+
+            <span class="main_text">
+              계정 만들기
+            </span>
+  
+            <div class="side_column">					
+              <span class="main_text_2" >
+                이름
+              </span>
+              <input type="text" placeholder="이름" class="input" name="name" required/>
+                          
+              <span class="main_text_2" >
+                소속학교
+              </span>
+              <input type="text" placeholder="소속학교" class="input" name="university" required/>               
+          
+              <span class="main_text_2" >
+                이메일
+              </span>
+              <input type="text" placeholder="학교 이메일 주소 ex) id@soongsil.ac.kr" class="input" name="email" required/>
+                    
+              <span class="main_text_2" >
+                성별
+              </span>
+  
+              <div class="row-view">
+                <input type="radio" id="male" name="gender" class="radio-hidden" value="남자" required/>
+                <label for="male" class="button_sex">
+                  <span class="button_text">남성</span>
+                </label>
+              
+                <input type="radio" id="female" name="gender" class="radio-hidden" value="여자" required/>
+                <label for="female" class="button_sex">
+                  <span class="button_text">여성</span>
+                </label>
+              </div>
+                      
+              <span class="main_text_2" >
+                소속학과
+              </span>
+              <input type="text" placeholder="ex) 글로벌미디어학부" class="input" name="department" required/>
+            </div>
+
+                        <!-- HTML: 버튼에 disabled 속성 추가 -->
+            <div class = "center">
+              <button type = "submit" id="nextBtn" class="keep_going_button" disabled>
+                  <span class="button_text">계속</span>
+              </button>
+            </div>
+
+          </form>
+
+          <script src="/js/create_account.js"></script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+.push-btn {
+    margin-top : 20px;
+    display : flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-01 {
+    padding : 12px 60px;
+    display : flex;
+    justify-items: center;
+    align-items: center;
+    font-size : 20px;
+    font-weight : 500;
+    background-color: var(--btn-03);
+    border-radius: 24px;
+    color : var(--bg-01);
+    border : none;
+    cursor : pointer;
+}
+
+.btn-01.active {
+    background-color: var(--btn-02);
+}

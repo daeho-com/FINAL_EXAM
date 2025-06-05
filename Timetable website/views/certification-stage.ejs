@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ACCOUNT</title>
+        <link rel="stylesheet" href="/css/certification-stage.css">
+        <link rel="stylesheet" href="/color/color.css" />
+        <link rel="stylesheet" href="/font/font.css" />
+    </head>
+    <body>
+        <%- include('../components/nav') %>
+
+        <div class = "nav-bar-empty_box"></div>
+        <main class="bg_contain">
+
+            <div class="both_contain">
+                  <!-- 전체를 감싸는 최상위 form: action, method, 히든(name/univ/etc)만 포함 -->
+                  <form action="/certification-stage" method="POST" class="e_mail_and_pw_form">
+                    
+                                    <!-- ① 인증 번호 입력 단계 -->
+                    <% if (!codeVerified && !signupComplete) { %>
+                        <section class="e_mail_container">
+                            <div class="school_email_text">학교 이메일로 인증번호가 갔습니다.</div>
+                        
+                            <!-- ■ 발송 안내 (mailSent=true일 때만) -->
+                            <% if (mailSent) { %>
+                                <div class="info-message" style="color: blue; margin: 12px 0;">
+                                인증번호가 메일로 전송되었습니다. 메일함을 확인해주세요.
+                                </div>
+                            <% } %>
+                        
+                            <!-- ■ 인증번호 입력 폼 -->
+                            <input type="hidden" name="action" value="verify"/>
+                            <!-- 1단계 히든 필드들… -->
+                            <input type="text" name="code" placeholder="인증번호" required />
+                            <button type="submit" class="mail_btn">인증하기</button>
+                        
+                            <!-- ■ 에러 메시지 -->
+                            <% if (error) { %>
+                                <div class="error-message"><%= error %></div>
+                            <% } %>
+                            </section>
+                    <% } %>
+
+                    <!-- ② 인증 성공 시: 메시지 + 비밀번호 입력 -->
+                    <% if (codeVerified && !signupComplete) { %>
+                        <div class="success-message" style="color:green; margin:16px 0;">
+                        인증이 확인되었습니다 ✅
+                        </div>
+
+                        <input 
+                        type="hidden" 
+                        name="code" 
+                        value="<%= data.code %>"  
+                        />
+
+                        <!-- 비밀번호 입력으로 넘어갈 때 필요한 히든 action 플래그 -->
+                        <input type="hidden" name="action" value="complete" />
+                        <!-- 비밀번호 입력 필드 -->
+                        <label style="display:block; margin-top:16px;">비밀번호</label>
+                        <input
+                        type="password"
+                        name="password"
+                        placeholder="비밀번호"
+                        required
+                        style="display:block; width:100%; padding:8px; margin-bottom:16px;"
+                        />
+                        <button type="submit" class="keep_going_button">
+                        회원가입 완료
+                        </button>
+                    <% } %>
+            
+                    <!-- 1단계 hidden inputs -->
+                    <input type="hidden" name="name"       value="<%= data.name %>" />
+                    <input type="hidden" name="university" value="<%= data.university %>" />
+                    <input type="hidden" name="email"      value="<%= data.email %>" />
+                    <input type="hidden" name="gender"     value="<%= data.gender %>" />
+                    <input type="hidden" name="department" value="<%= data.department %>" />
+            
+
+                    <% if (typeof error !== 'undefined') { %>
+                        <div class="error-message"><%= error %></div>
+                      <% } %>
+                </form>
+                    
+                <% if (signupComplete) { %>
+                    <section class = "cog_container">
+                        <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/YtjqD7gPg4/a9hnm67q_expires_30_days.png" alt="" class="cog_container_logo"/>
+
+                        <h2 class="cog_container_title">회원가입을 축하드립니다</h2>
+
+                        <p class="cog_container_text">
+                            간략한 이용흐름을 설명해드릴게요
+                        </p>
+
+                        <div class="cog_container_main">
+                            <div class="cog_img">
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/YtjqD7gPg4/6cjg50nm_expires_30_days.png"  class="cog_img_1"/>
+                            </div>
+
+                            <div class="cog_container_part">
+                                <div class="cog_container_strong_text_part" >
+                                    매칭을 위한 설문지 작성
+                                </div>
+                                <div class="cog_container_text_part" >
+                                    원활한 매칭을 위해 솔직하게 답해주세요
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cog_container_main">
+                            <div class="cog_img">
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/YtjqD7gPg4/m7v62dv5_expires_30_days.png" class="cog_img_1"/>
+                            </div> 
+
+                            <div class="cog_container_part">
+                                <div class="cog_container_strong_text_part" >
+                                    공강시간 파악을 위해 시간표 작성
+                                </div>
+                                <div class="cog_container_text_part">
+                                    공강시간을 매칭을 도와줄거에요
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cog_container_main">
+                            <div class="cog_img">
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/YtjqD7gPg4/td9tbm9q_expires_30_days.png" class="cog_img_1"/>
+                            </div>
+                            
+                            <div class="cog_container_part">
+                                <div class="cog_container_strong_text_part" >
+                                    원하는 사람을 선택
+                                </div>
+                                <div class="cog_container_text_part" >
+                                    원하는 사람을 선택할 수 있어요
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cog_container_main">
+                            <div class="cog_img">
+                                <img src="https://storage.googleapis.com/tagjs-prod.appspot.com/v1/YtjqD7gPg4/b9j3jn18_expires_30_days.png" class="cog_img_1"/>
+                            </div>
+
+                            <div class="cog_container_part">
+                                <div class="cog_container2_strong_text_part" >
+                                    원하는 사람에게 편지 보내기
+                                </div>
+                                <div class="cog_container_text_part" >
+                                    상대방이 편지를 보고 동의하면 서로 연락할 수 있어요
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn2 btn2_login" type = "button" onclick="location.href='/login'">
+                            로그인 하러 가기
+                        </button>
+
+                    </section>
+                <% } %>
+            </div>
+        </main>
+    </body>
+</html>

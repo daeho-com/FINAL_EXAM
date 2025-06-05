@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/color/color.css">
+    <%- include('../components/nav') %> <!-- nav.ejs를 불러옴 -->
+    <!-- 1) styles.css 불러오기 -->
+    <link rel="stylesheet" href="/font/font.css" />
+</head>
+<body>
+  <!-- 🟧 배경 일러스트 -->
+  <div class="login-card">
+    <img src="/img/bg01.png" alt="사람 일러스트" class="login-card-bg">
+    
+    <!-- ⬜ 로그인 카드 -->
+    <div class="login-card-main">
+      <div class = "login-card-announce">
+        <img src="/img/img01.png" alt="로고 아이콘" class="login-card-logo">
+        <p class = "login-card-do-it-login">로그인하기</p>
+        <p class = "login-card-do-it-login login-card-do-it-detail">학교 이메일, 비밀번호를 입력해주세요</p>
+      </div>  
+
+      <form action="/login" method="POST" class="login-card-input">
+        <% if (typeof error !== 'undefined') { %>
+          <div class="error-message"><%= error %></div>
+        <% } %>
+        <input class = "login-card-input-part"type="email" name="login-email" placeholder="학교 이메일" required>
+        <input class = "login-card-input-part" type="password" name="login-password" placeholder="비밀번호" required>
+        <button type="submit" class="login-card-input-btn">로그인하기</button>
+      </form>
+
+      <a href="/" class="login-card-input_link">계정 만들러 가기</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+// routes/find-partner-router.js
+const express = require('express');
+const router = express.Router();
+const pool = require('../db');
+
+router.get('/find-partner', async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
+
+    // 1) 내 설문
+    const [[mySurvey]] = await pool.query(
+      `SELECT smoking_status, meet_pref, study_goal, mbti
+         FROM partner_survey
+        WHERE user_id = ?`,
+      [userId]
+    );
+      const [users] = await pool.query(
+          `SELECT 
+              s2.user_id,
+              u.name,
+              u.avatar_url,    -- avatar_url 추가
+              u.age,
+              u.grade,
+              u.department,
+              u.university,
+              COUNT(*) AS overlap_count
+            FROM schedules s1
+            JOIN schedules s2
+              ON s1.day = s2.day AND s1.hour = s2.hour AND s1.user_id <> s2.user_id
+            JOIN user_profile u ON u.user_id = s2.user_id
+          WHERE s1.user_id = ?
+            AND (   (? IS NULL OR u.mbti = ?)
+                  AND (? IS NULL OR u.meet_pref = ?)
+                  AND (? IS NULL OR u.study_goal = ?)
+                  AND (? IS NULL OR u.smoking_status = ?)
+                )
+          GROUP BY s2.user_id
+          HAVING overlap_count >= 1
+          ORDER BY overlap_count DESC, u.user_id`,
+          [
+            userId,
+            req.query.mbti    || null, req.query.mbti    || null,
+            req.query.meet_pref || null, req.query.meet_pref || null,
+            req.query.study_goal|| null, req.query.study_goal|| null,
+            req.query.smoking_status || null, req.query.smoking_status || null
+          ]
+        );
+
+
+    res.render('find-partner', { mySurvey, users, query: req.query });
+  } catch (err) {
+    next(err);
+  }
+});
+
+module.exports = router;

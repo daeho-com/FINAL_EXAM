@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <link rel="stylesheet" href="/css/timetable.css">
+    <link rel="stylesheet" href="/color/color.css">
+    <link rel="stylesheet" href="/font/font.css" />
+    <!-- components 요소 불러옴 -->
+    <%- include('../components/nav') %> <!-- nav.ejs를 불러옴 -->
+    <link rel="stylesheet" href="/components/push-btn.css">
+</head>
+<body>
+    <div class="nav-bar-empty_box"></div>
+
+    <main class="timetable">
+        <div class="timetable-text">
+            <p>나의 시간표</p>
+        </div>
+        
+        <form action="/timetable" method="POST" id="timetable-form">
+            <input type="hidden" name="slots" id="slots-input">
+
+            <div class="timetable-box">
+                <div class="timetable-box-rowcell">
+                    <div class="cell-header cell-header-first"></div>
+                    <div class="cell-header">월</div>
+                    <div class="cell-header">화</div>
+                    <div class="cell-header">수</div>
+                    <div class="cell-header">목</div>
+                    <div class="cell-header">금</div>
+                </div>
+
+                <%
+                  const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+                  const days = [1, 2, 3, 4, 5];
+                %>
+
+                <% hours.forEach(hour => { %>
+                    <div class="timetable-box-rowcell">
+                        <div class="cell-header cell-header-first"><%= hour %>:00~<%= hour + 1 %>:00</div>
+                        
+                        <% days.forEach(day => { %>
+                            <div class="cell-header">
+                                <input type="checkbox" id="slot-<%= day %>-<%= hour %>" name="slot-<%= day %>-<%= hour %>">
+                                <label for="slot-<%= day %>-<%= hour %>"></label>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% }); %>
+            </div>
+        </form>
+    </main>
+    
+    <div class = "push-btn">
+        <button id="save-btn" type="submit" class="btn-01">계속</button>
+    </div>
+    
+    <script src="/js/timetable.js" defer></script>
+</body>
+</html>
+

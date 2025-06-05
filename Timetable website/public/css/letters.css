@@ -1,0 +1,216 @@
+/* 브라우저 기본 여백 제거 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* 패딩, 보더 포함한 크기 계산 */
+}
+
+body {
+  width : 100vW;
+  height : 100vh;
+  background-color: var(--bg-03);
+}
+
+.nav-bar-empty_box {
+  width : 100vw;
+  height : 13vh;
+}
+
+
+/* fixed 네비게이션이 위에 보이도록 */
+.nav-bar {
+  background-color: var(--bg-03);
+}
+  
+  /* 전체 레이아웃: 좌측 목록, 우측 상세 */
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+  }
+  
+  /* ── 왼쪽: 편지 목록 ───────────────────────── */
+  .letter-list {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .letter-list h2 {
+    margin: 0 0 16px;
+  }
+  .letter-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .letter-item:hover {
+    background: rgba(0,0,0,0.03);
+  }
+  .letter-item + .letter-item {
+    margin-top: 8px;
+  }
+  .letter-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .letter-item .meta {
+    margin-left: 12px;
+    flex: 1;
+  }
+  
+  /* ── 오른쪽: 편지 상세 ─────────────────────── */
+  .letter-detail {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    min-height: 400px;
+    position: relative;
+  }
+  .letter-detail .placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #999;
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  /* 상세 헤더 */
+  .detail-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 12px;
+  }
+  .detail-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .detail-header span {
+    font-weight: 600;
+  }
+  
+  /* 편지 이미지 & 안내 문구 */
+  .letter-image {
+    text-align: center;
+    margin: 24px 0;
+  }
+  .letter-image img {
+    width: 120px;
+  }
+  .letter-image p {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* 편지 내용 */
+  .letter-content pre {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 16px;
+    padding: 16px;
+    white-space: pre-wrap;
+    font-size: 0.95rem;
+  }
+  .letter-content a {
+    display: inline-block;
+    margin-top: 8px;
+    color: #555;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  
+  /* 수락/거절 버튼 */
+  .actions {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+  }
+  .actions button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 24px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .btn-accept {
+    background: linear-gradient(45deg, #f04e32, #ff7854);
+    color: #fff;
+  }
+  .btn-reject {
+    background: #777;
+    color: #fff;
+  }
+
+  /* 수락/거절 결과 메시지 */
+.result-accept, .result-reject {
+  text-align: center;
+  padding: 40px;
+}
+.result-accept p {
+  font-size: 1.4rem;
+  color: #f04e32; /* 빨간 그라데이션 컬러 계열 */
+}
+.result-reject p {
+  font-size: 1.4rem;
+  color: #555;   /* 회색 톤 */
+}
+/* 뒤로가기 버튼 */
+.btn-back {
+  margin-top: 24px;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 24px;
+  background: #777;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.hidden {
+  display: none;
+}
+
+.letter-item.sent {
+  opacity: 0.6;
+}
+.letter-list h2 + .sent {
+  /* 예: 보낸 편지는 살짝 오른쪽으로 들여쓰기 */
+  margin-left: 8px;
+}
+
+/* 편지 상세 결과 메시지 */
+.result-message {
+  padding: 12px;
+  margin: 16px 0;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.result-message.accept {
+  background: #e0f7e9;
+  color: #257a3c;
+}
+.result-message.reject {
+  background: #fdecea;
+  color: #a12a2a;
+}
+
+/* 보낸 편지 중 아직 pending 상태는 회색 & 클릭 불가 표시 */
+.letter-list .letter-item.sent[data-status="pending"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= user.name %> 님의 프로필</title>
+    <!-- 스타일시트 -->
+    <link rel="stylesheet" href="/css/user-detail.css" />
+    <link rel="stylesheet" href="/color/color.css" />
+    <link rel="stylesheet" href="/font/font.css" />
+    <link rel="stylesheet" href="/components/push-btn.css" />
+</head>
+<body>
+  <%- include('../components/nav') %>
+  <div class = "nav-bar-empty_box"></div>
+  <div class="container">
+
+    <!-- 왼쪽 프로필 카드 -->
+    <aside class="profile-card">
+      <img class="avatar" src="<%= user.avatar_url %>" alt="avatar">
+      <h2><%= user.name %></h2>
+      <p><%= user.university %>, <%= user.department %>, <%= user.grade %>학년</p>
+      <dl class="details">
+        <dt>나이</dt><dd><%= user.age %>세</dd>
+        <dt>MBTI</dt><dd><%= user.mbti %></dd>
+        <dt>성별</dt><dd><%= user.gender %></dd>
+        <dt>만남 선호</dt><dd><%= user.meet_pref %></dd>
+        <dt>공부 목적</dt><dd><%= user.study_goal %></dd>
+        <dt>스터디 분위기</dt><dd><%= user.vibe_pref %></dd>
+        <dt>말하기 스타일</dt><dd><%= user.speaking_style %></dd>
+        <dt>환경 민감도</dt><dd><%= user.noise_sensitivity %></dd>
+      </dl>
+    </aside>
+
+    <!-- 오른쪽 메인 섹션 -->
+    <section class="main-content">
+      <h3>나와 일치하는 공강시간</h3>
+      <!-- user-detail.ejs 의 schedule-grid 부분만 바꾼 예시 -->
+      <div class="schedule-grid">
+        <div class="cell header"></div>
+        <div class="cell header">월</div>
+        <div class="cell header">화</div>
+        <div class="cell header">수</div>
+        <div class="cell header">목</div>
+        <div class="cell header">금</div>
+      
+        <%
+          const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+          const days = [1, 2, 3, 4, 5];
+        %>
+      
+        <% hours.forEach(hour => { %>
+          <div class="cell time"><%= hour %>:00~<%= hour + 1 %>:00</div>
+          
+          <% days.forEach(day => { %>
+            <%
+              const slot = matchSlots.find(s => s.day === day && s.hour === hour);
+            %>
+            <div class="cell slot <%= slot && slot.match ? 'match' : '' %>"></div>
+          <% }); %>
+        <% }); %>
+      </div>
+
+      <!-- 매력 포인트 & 장점 -->
+      <div class="text-field">
+        <label>매력 포인트</label>
+        <div class="value"><%= user.charm_point %></div>
+      </div>
+      <div class="text-field">
+        <label>장점</label>
+        <div class="value"><%= user.strength %></div>
+      </div>
+
+      <div class="actions">
+        <% if (currentUserId !== user.user_id) { %>
+          <form action="/letter-list" method="POST">
+            <input 
+              type="hidden" 
+              name="receiver_id" 
+              value="<%= user.user_id %>"
+            />
+            <!-- 기존 버튼들(예: 공강 매칭 등) 아래에 -->
+            <button type="submit" id="send-letter-btn" data-user-id="<%= user.user_id %>" class="btn-send">
+              상대에게 편지 보내기
+            </button>
+          </form>
+        <% } %>
+      </div>
+    </section>
+
+     <!-- 스크립트 로드 (public/js/user-detail.js) -->
+     <script src="/js/user-detail.js" defer></script>
+  </div>
+</body>
+</html>

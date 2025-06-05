@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>받은 편지 목록</title>
+  <link rel="stylesheet" href="/css/letters.css">
+  <link rel="stylesheet" href="/color/color.css" />
+  <link rel="stylesheet" href="/font/font.css" />
+</head>
+<body>
+  <%- include('../components/nav') %>
+  <div class="nav-bar-empty_box"></div>
+
+  <div class="layout">
+
+    <!-- 왼쪽 사이드바: 받은 편지 & 보낸 편지 -->
+    <aside class="letter-list">
+      <h2>받은 편지</h2>
+      <% if (inbox.length) { %>
+        <% inbox.forEach(l => { %>
+          <div class="letter-item" data-id="<%= l.id %>" data-status="<%= l.status %>" data-dir="in">
+            <img src="<%= l.avatar_url %>" alt>
+            <div class="meta">
+              <strong><%= l.name %></strong>
+              <% if (l.status !== 'pending') { %>
+                <span class="status-tag"><%= l.status === 'accepted' ? '✅ 수락됨' : '❌ 거절됨' %></span>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="empty">받은 편지가 없습니다.</p>
+      <% } %>
+    </aside>
+
+    <aside class = "letter-list">
+      <h2>보낸 편지</h2>
+      <% if (sent.length) { %>
+        <% sent.forEach(l => { %>
+          <div class="letter-item sent" data-id="<%= l.id %>" data-status="<%= l.status %>" data-dir="out" >
+            <img src="<%= l.avatar_url %>" alt>
+            <div class="meta">
+              <strong><%= l.name %></strong>
+              <% if (l.status !== 'pending') { %>
+                <span class="status-tag"><%= l.status === 'accepted' ? '✅ 수락됨' : '❌ 거절됨' %></span>
+              <% } %>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p class="empty">보낸 편지가 없습니다.</p>
+      <% } %>
+    </aside>
+  
+    <!-- 우측 디테일 영역 -->
+    <main class="letter-detail">
+      <p class="placeholder">편지를 선택하세요</p>
+    </main>
+  </div>
+
+  <script src="/js/letters.js" defer></script>
+</body>
+</html>

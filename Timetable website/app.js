@@ -119,50 +119,75 @@ app.get('/create_account', (req, res) => {
 
 
 // 유저 상세 페이지 (GET)
- app.get('/users/:id', async (req, res, next) => {
-     try {
-       const userId = parseInt(req.params.id, 10);
-       
-       // 올바른 테이블명 user_profile, 올바른 PK 컬럼 user_id
-       const [userRows] = await pool.query(
-          `SELECT user_id, name, avatar_url, university, department, grade, age,
-                  mbti, gender, meet_pref, study_goal,
-                  vibe_pref, speaking_style, noise_sensitivity,
-                  charm_point, strength
-            FROM user_profile
-            WHERE user_id = ?`, [userId]
-        );
-       if (!userRows[0]) return res.status(404).send('User not found');
-       const user = userRows[0];
-  
-       // 2) 본인(로그인 유저) & 상세 페이지 유저 스케줄 조회
-       const currentUserId = req.session.userId;  // 로그인한 유저 ID
-       const [mine]  = await pool.query(
-         `SELECT day, hour FROM schedules WHERE user_id = ?`,
-         [currentUserId]
-       );
-       const [other] = await pool.query(
-         `SELECT day, hour FROM schedules WHERE user_id = ?`,
-         [userId]
-       );
-  
-       // 3) 공강 매칭 계산
-       const mineSet  = new Set(mine.map(r => `${r.day}-${r.hour}`));
-       const otherSet = new Set(other.map(r => `${r.day}-${r.hour}`));
-       const matchSlots = [];
-       for (let day = 1; day <= 5; day++) {
-         for (let hour = 10; hour <= 18; hour++) {
-           const key = `${day}-${hour}`;
-           matchSlots.push({ day, hour, match: mineSet.has(key) && otherSet.has(key) });
-         }
-       }
-  
-       // 4) EJS 렌더링
-       res.render('user-detail', { user, matchSlots, currentUserId });
-     } catch (err) {
-       next(err);
-     }
-   });
+// Timetable-website-main 4/app.js
+
+// 기존의 app.get('/users/:id', ...) 함수를 찾아서 아래 코드로 전체를 교체해주세요.
+app.get('/users/:id', async (req, res, next) => {
+  try {
+    const userId = parseInt(req.params.id, 10);
+    const currentUserId = req.session.userId;
+
+    if (!currentUserId) {
+      // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+      return res.redirect('/login');
+    }
+
+    // 1. 사용자 프로필 정보 조회
+    const [userRows] = await pool.query(
+      `SELECT user_id, name, avatar_url, university, department, grade, age,
+              mbti, gender, meet_pref, study_goal,
+              vibe_pref, speaking_style, noise_sensitivity,
+              charm_point, strength
+        FROM user_profile
+        WHERE user_id = ?`, [userId]
+    );
+
+    if (!userRows[0]) {
+      return res.status(404).send('User not found');
+    }
+    const user = userRows[0];
+
+    // 2. 두 사용자의 '수업(busy) 시간' 목록을 각각 조회합니다.
+    const [mine_busy_rows] = await pool.query(
+      `SELECT day, hour FROM schedules WHERE user_id = ?`,
+      [currentUserId]
+    );
+    const [other_busy_rows] = await pool.query(
+      `SELECT day, hour FROM schedules WHERE user_id = ?`,
+      [userId]
+    );
+
+    // 3. 조회된 '수업 시간'을 빠른 조회를 위해 Set으로 만듭니다.
+    const mineBusySet = new Set(mine_busy_rows.map(r => `${r.day}-${r.hour}`));
+    const otherBusySet = new Set(other_busy_rows.map(r => `${r.day}-${r.hour}`));
+
+    // 4. ★★★ 로직 변경: 겹치는 '공강' 시간을 계산합니다. ★★★
+    const matchSlots = [];
+    const days = [1, 2, 3, 4, 5];
+    const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18];
+
+    days.forEach(day => {
+      hours.forEach(hour => {
+        const key = `${day}-${hour}`;
+        
+        // '나'와 '상대방' 모두 해당 시간에 수업이 없는지(isFree) 확인합니다.
+        const isFreeForMe = !mineBusySet.has(key);
+        const isFreeForOther = !otherBusySet.has(key);
+
+        // 두 사람 모두 공강인 경우에만 match를 true로 설정합니다.
+        const isMatch = isFreeForMe && isFreeForOther;
+        
+        matchSlots.push({ day, hour, match: isMatch });
+      });
+    });
+
+    // 5. 계산된 '공강 시간' 데이터를 프론트엔드로 전달하여 렌더링합니다.
+    res.render('user-detail', { user, matchSlots, currentUserId });
+
+  } catch (err) {
+    next(err);
+  }
+});
 
 // app.js
 app.get('/letters', async (req, res, next) => {

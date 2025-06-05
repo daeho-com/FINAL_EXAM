@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mbti</title>
+    <link rel="stylesheet" href="/css/mbti.css">
+    <link rel="stylesheet" href="/color/color.css">
+    <link rel="stylesheet" href="/font/font.css" />
+    <!-- components 요소 불러옴 -->
+    <%- include('../components/nav') %> <!-- nav.ejs를 불러옴 -->
+    <link rel="stylesheet" href="/components/push-btn.css">
+</head>
+<body>
+    <div class = "nav-bar-empty_box"></div>
+
+    <main class = "mbti-question">
+      <form id="mbti-form" action="/mbti" method="POST">
+            <div class = "mbti-question-text"><p>설문지 작성</p></div>
+            <input type="hidden" name="mbti" id="mbti-input" value="" />
+            <!-- MBTI 그리드 -->
+            <div class="mbti-grid">
+                <% 
+                // 반복할 MBTI 타입 목록
+                const types = [
+                    'ESTJ','ESTP','ESFJ','ESFP',
+                    'ENTJ','ENTP','ENFJ','ENFP',
+                    'ISTJ','ISTP','ISFJ','ISFP',
+                    'INTJ','INTP','INFJ','INFP'
+                ]; 
+                %>
+                <% types.forEach(type => { %>
+                <div class="mbti-cell" data-type="<%= type %>">
+                <!-- 이미지 파일명은 public/img/ESTJ.png 등으로 맞춰주세요 -->
+                <img src="/img/<%= type %>.png" alt="<%= type %> 아이콘" />
+                <p><%= type %></p>
+                </div>
+                <% }); %>
+            </div>
+            
+            <div class = "push-btn">
+                <button type="submit" id="save-btn"" class = "btn-01" disabled>계속</button>
+            </div>
+      </form>
+    </main>
+
+
+
+    <script src="/js/mbti-question.js" defer></script>
+</body>
+</html>
