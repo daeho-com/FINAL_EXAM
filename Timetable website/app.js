@@ -117,48 +117,6 @@ app.get('/create_account', (req, res) => {
   res.render('create_account');
 });
 
-// 공강 겹치는 유저 리스트업 (ejs 렌더링용)
-app.get('/find-partner', async (req, res, next) => {
-  try {
-    const userId = req.session.userId;
-    if (!userId) return res.redirect('/login');
-
-    // 1) 내 설문 조회
-    const [[mySurvey]] = await pool.query(
-      `SELECT smoking_status, meet_pref, study_goal, mbti
-          FROM partner_survey
-        WHERE user_id = ?`,
-      [userId]
-    );
-
-    const minOverlap = 1; // 기본 1개 이상 겹치면 보여줌
-    const [rows] = await pool.query(
-      `SELECT 
-         s2.user_id,
-         u.name,
-         u.avatar_url,
-         u.age,
-         u.grade,
-         u.department,
-         u.university,
-         COUNT(*) AS overlap_count
-       FROM schedules s1
-       JOIN schedules s2
-         ON s1.day = s2.day AND s1.hour = s2.hour AND s1.user_id <> s2.user_id
-       JOIN user_profile u ON u.user_id = s2.user_id
-      WHERE s1.user_id = ?
-      GROUP BY s2.user_id
-      HAVING overlap_count >= ?
-      ORDER BY overlap_count DESC, u.user_id
-      `,
-      [userId, minOverlap]
-    );
-
-    res.render('find-partner', { users: rows, mySurvey });
-  } catch (err) {
-    next(err);
-  }
-});
 
 // 유저 상세 페이지 (GET)
  app.get('/users/:id', async (req, res, next) => {

@@ -15,54 +15,40 @@ router.get('/find-partner', async (req, res, next) => {
         WHERE user_id = ?`,
       [userId]
     );
+      const [users] = await pool.query(
+          `SELECT 
+              s2.user_id,
+              u.name,
+              u.avatar_url,    -- avatar_url 추가
+              u.age,
+              u.grade,
+              u.department,
+              u.university,
+              COUNT(*) AS overlap_count
+            FROM schedules s1
+            JOIN schedules s2
+              ON s1.day = s2.day AND s1.hour = s2.hour AND s1.user_id <> s2.user_id
+            JOIN user_profile u ON u.user_id = s2.user_id
+          WHERE s1.user_id = ?
+            AND (   (? IS NULL OR u.mbti = ?)
+                  AND (? IS NULL OR u.meet_pref = ?)
+                  AND (? IS NULL OR u.study_goal = ?)
+                  AND (? IS NULL OR u.smoking_status = ?)
+                )
+          GROUP BY s2.user_id
+          HAVING overlap_count >= 1
+          ORDER BY overlap_count DESC, u.user_id`,
+          [
+            userId,
+            req.query.mbti    || null, req.query.mbti    || null,
+            req.query.meet_pref || null, req.query.meet_pref || null,
+            req.query.study_goal|| null, req.query.study_goal|| null,
+            req.query.smoking_status || null, req.query.smoking_status || null
+          ]
+        );
 
-    // 2) 동적 WHERE 절 준비
-    const where = ['s1.user_id = ?'];
-    const params = [userId];
 
-    const { mbti, meet_pref, study_goal, smoking_status } = req.query;
-
-    if (mbti) {
-      where.push('u.mbti = ?');
-      params.push(mbti);
-    }
-    if (meet_pref) {
-      where.push('u.meet_pref = ?');
-      params.push(meet_pref);
-    }
-    if (study_goal) {
-      where.push('u.study_goal = ?');
-      params.push(study_goal);
-    }
-    if (smoking_status) {
-      where.push('u.smoking_status = ?');
-      params.push(smoking_status);
-    }
-
-    // 3) 공강 겹침 쿼리 + HAVING
-    const sql = `
-      SELECT 
-        s2.user_id,
-        u.name, u.avatar_url, u.age, u.grade,
-        u.department, u.university,
-        COUNT(*) AS overlap_count
-      FROM schedules s1
-      JOIN schedules s2
-        ON s1.day = s2.day
-       AND s1.hour = s2.hour
-       AND s1.user_id <> s2.user_id
-      JOIN user_profile u
-        ON u.user_id = s2.user_id
-     WHERE ${where.join(' AND ')}
-     GROUP BY s2.user_id
-     HAVING overlap_count >= ?
-     ORDER BY overlap_count DESC, u.user_id
-    `;
-    params.push(1); // 최소 겹침 개수
-
-    const [users] = await pool.query(sql, params);
-
-    res.render('filter', { users, mySurvey });
+    res.render('find-partner', { mySurvey, users, query: req.query });
   } catch (err) {
     next(err);
   }

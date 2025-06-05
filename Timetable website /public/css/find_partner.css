@@ -94,8 +94,21 @@ body {
     transition: background 0.2s;
   }
   .filter-btn:hover {
-    background: #F6F6F6;
+    background: var(--bg-06);
   }
+
+  /* 선택된 상태: 배경색과 글자색 변경 */
+.filter-btn.selected {
+  background-color: var(--bg-06); /* 파란색 계열 */
+  color: #fff;
+  border-color: #6E6E6E;
+}
+
+/* 선택된 상태에서 마우스 오버 시 */
+.filter-btn.selected:hover {
+  background-color: #006ae6;
+}
+
   .table-box {
     width: 1200px;
     position: absolute;

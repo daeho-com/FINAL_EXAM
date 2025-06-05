@@ -18,14 +18,14 @@
     <div class="page-title">스터디 상대 찾기</div>
     <div class="filter-btns">
       <button
-            class="filter-btn"
+            class="filter-btn <%= query.mbti === mySurvey.mbti ? 'selected' : '' %>"
             data-filter="mbti"
             data-value="<%= mySurvey.mbti %>">
             MBTI: <%= mySurvey.mbti || '전체' %>
       </button>
          <!-- 2) 만남 선호 방식 필터 -->
       <button
-        class="filter-btn"
+        class="filter-btn <%= query.meet_pref === mySurvey.meet_pref ? 'selected' : '' %>"
         data-filter="meet_pref"
         data-value="<%= mySurvey.meet_pref %>">
         만남 선호: <%= mySurvey.meet_pref || '전체' %>
@@ -33,12 +33,12 @@
 
         <!-- 3) 공부 목적 필터 -->
       <button
-        class="filter-btn"
+        class="filter-btn <%= query.study_goal === mySurvey.study_goal ? 'selected' : '' %>"
         data-filter="study_goal"
         data-value="<%= mySurvey.study_goal %>">
         공부 목적: <%= mySurvey.study_goal || '전체' %>
       </button>
-      <button class="filter-btn" data-filter="smoking_status" data-value="<%= mySurvey.smoking_status %>">
+      <button class="filter-btn <%= query.smoking_status === mySurvey.smoking_status ? 'selected' : '' %>" data-filter="smoking_status" data-value="<%= mySurvey.smoking_status %>">
         흡연 여부: <%= mySurvey.smoking_status || '전체' %>
       </button>
     </div>
@@ -59,9 +59,13 @@
             <div class="table-cell cell-id"><%= idx + 1 %></div>
             <div class="table-cell cell-user">
               <% if (user.avatar_url) { %>
-                <img src="<%= user.avatar_url %>" alt="">
+                <a href="/users/<%= user.user_id %>">
+                  <img src="<%= user.avatar_url %>" alt="프로필 사진">
+                </a>
               <% } else { %>
-                <img src="https://placehold.co/80x80" alt="">
+                <a href="/users/<%= user.user_id %>">
+                  <img src="https://placehold.co/80x80" alt="">
+                </a>
               <% } %>
             </div>
             <div class="table-cell cell-name"><%= user.name %></div>
