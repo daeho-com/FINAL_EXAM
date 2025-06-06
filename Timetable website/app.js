@@ -68,6 +68,11 @@ app.use(
 // EJS 뷰 엔진 설정 추가
 app.set('view engine', 'ejs'); // EJS 템플릿 엔진 사용
 app.set('views', path.join(__dirname, 'views')); // views 폴더 설정
+app.use((req, res, next) => {
+  res.locals.userId = req.session.userId || null;
+  next();
+});
+
 
 // 3. 기본 라우팅 (index.html 보여주기)
 app.get('/', (req, res) => {
@@ -79,8 +84,10 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/timetable', (req, res) => {
+  if (!req.session.userId) return res.redirect('/login');
   res.render('timetable');
 });
+
 
 app.get('/mbti', (req, res) => {
   if (!req.session.userId) return res.redirect('/login');
@@ -106,10 +113,10 @@ app.get('/first-page', (req, res) => {
 
 app.get('/certification-stage', (req, res) => {
   const data = req.session.signupData;
-  if (!data) {
-    // 1단계(가입 폼)를 거치지 않고 바로 왔으면
-    return res.redirect('/create_account');
-  }
+   if (!data) {
+     // 1단계(가입 폼)를 거치지 않고 바로 왔으면
+     return res.redirect('/create_account');
+   }
   res.render('certification-stage', { data });
 });
 
@@ -117,77 +124,105 @@ app.get('/create_account', (req, res) => {
   res.render('create_account');
 });
 
+// 공강 겹치는 유저 리스트업 (ejs 렌더링용)
+app.get('/find-partner', async (req, res, next) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.redirect('/login');
 
-// 유저 상세 페이지 (GET)
-// Timetable-website-main 4/app.js
+    // 1) 내 설문 조회
+    const [[mySurvey]] = await pool.query(
+      `SELECT smoking_status, meet_pref, study_goal, mbti
+          FROM partner_survey
+        WHERE user_id = ?`,
+      [userId]
+    );
 
-// 기존의 app.get('/users/:id', ...) 함수를 찾아서 아래 코드로 전체를 교체해주세요.
+    const minOverlap = 1; // 기본 1개 이상 겹치면 보여줌
+    const [rows] = await pool.query(
+      `SELECT 
+         s2.user_id,
+         u.name,
+         u.avatar_url,
+         u.age,
+         u.grade,
+         u.department,
+         u.university,
+         COUNT(*) AS overlap_count
+       FROM schedules s1
+       JOIN schedules s2
+         ON s1.day = s2.day AND s1.hour = s2.hour AND s1.user_id <> s2.user_id
+       JOIN user_profile u ON u.user_id = s2.user_id
+      WHERE s1.user_id = ?
+      GROUP BY s2.user_id
+      HAVING overlap_count >= ?
+      ORDER BY overlap_count DESC, u.user_id
+      `,
+      [userId, minOverlap]
+    );
+
+    res.render('find-partner', { users: rows, mySurvey });
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get('/users/:id', async (req, res, next) => {
   try {
-    const userId = parseInt(req.params.id, 10);
-    const currentUserId = req.session.userId;
-
-    if (!currentUserId) {
-      // 로그인하지 않은 경우 로그인 페이지로 리다이렉트
+    // 🔴 로그인 여부 확인
+    if (!req.session.userId) {
       return res.redirect('/login');
     }
 
-    // 1. 사용자 프로필 정보 조회
+    const userId = parseInt(req.params.id, 10);
+
+    // 1) 상대방 유저 프로필 조회
     const [userRows] = await pool.query(
       `SELECT user_id, name, avatar_url, university, department, grade, age,
               mbti, gender, meet_pref, study_goal,
               vibe_pref, speaking_style, noise_sensitivity,
               charm_point, strength
         FROM user_profile
-        WHERE user_id = ?`, [userId]
+        WHERE user_id = ?`,
+      [userId]
     );
-
-    if (!userRows[0]) {
-      return res.status(404).send('User not found');
-    }
+    if (!userRows[0]) return res.status(404).send('User not found');
     const user = userRows[0];
 
-    // 2. 두 사용자의 '수업(busy) 시간' 목록을 각각 조회합니다.
-    const [mine_busy_rows] = await pool.query(
+    // 2) 로그인한 유저, 상대방 유저의 스케줄 조회
+    const currentUserId = req.session.userId;
+    const [mine] = await pool.query(
       `SELECT day, hour FROM schedules WHERE user_id = ?`,
       [currentUserId]
     );
-    const [other_busy_rows] = await pool.query(
+    const [other] = await pool.query(
       `SELECT day, hour FROM schedules WHERE user_id = ?`,
       [userId]
     );
 
-    // 3. 조회된 '수업 시간'을 빠른 조회를 위해 Set으로 만듭니다.
-    const mineBusySet = new Set(mine_busy_rows.map(r => `${r.day}-${r.hour}`));
-    const otherBusySet = new Set(other_busy_rows.map(r => `${r.day}-${r.hour}`));
-
-    // 4. ★★★ 로직 변경: 겹치는 '공강' 시간을 계산합니다. ★★★
+    // 3) 공강시간 매칭 계산 (첫 번째 코드의 정확한 로직!)
+    const mineBusySet = new Set(mine.map(r => `${r.day}-${r.hour}`));
+    const otherBusySet = new Set(other.map(r => `${r.day}-${r.hour}`));
     const matchSlots = [];
-    const days = [1, 2, 3, 4, 5];
-    const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-
-    days.forEach(day => {
-      hours.forEach(hour => {
+    for (let day = 1; day <= 5; day++) {
+      for (let hour = 10; hour <= 18; hour++) {
         const key = `${day}-${hour}`;
-        
-        // '나'와 '상대방' 모두 해당 시간에 수업이 없는지(isFree) 확인합니다.
+        // 두 사람 모두 해당 시간에 수업이 없는 경우
         const isFreeForMe = !mineBusySet.has(key);
         const isFreeForOther = !otherBusySet.has(key);
-
-        // 두 사람 모두 공강인 경우에만 match를 true로 설정합니다.
         const isMatch = isFreeForMe && isFreeForOther;
-        
         matchSlots.push({ day, hour, match: isMatch });
-      });
-    });
+      }
+    }
 
-    // 5. 계산된 '공강 시간' 데이터를 프론트엔드로 전달하여 렌더링합니다.
+    // 4) EJS 렌더링
     res.render('user-detail', { user, matchSlots, currentUserId });
 
   } catch (err) {
     next(err);
   }
 });
+
 
 // app.js
 app.get('/letters', async (req, res, next) => {
@@ -346,41 +381,73 @@ app.get('/letters', async (req, res, next) => {
     
     
   app.post('/login', async (req, res) => {
-    try {
-      // 1) 폼에서 넘어온 값 읽기
-      const { 'login-email': email, 'login-password': password } = req.body;
-  
-      // 2) DB에서 해당 이메일의 해시된 비밀번호, 유저 아이디 조회
-      const [rows] = await pool.query(
-        `SELECT user_id, password
-           FROM user_profile
-          WHERE email = ?`,
-        [email]
-      );
-  
-      if (!rows[0]) {
-        // 가입된 이메일이 아니면 에러 리턴
-        return res.render('login', { error: '등록된 이메일이 아닙니다.' });
-      }
-  
-      // 3) bcrypt로 비밀번호 비교
-      const isMatch = await bcrypt.compare(password, rows[0].password);
-      if (!isMatch) {
-        // 비밀번호가 틀리면 에러 리턴
-        return res.render('login', { error: '비밀번호가 일치하지 않습니다.' });
-      }
-  
-      // 4) 세션에 로그인 상태 저장
-      req.session.userId = rows[0].user_id;
-  
-      // 5) 로그인 성공 시 원하는 페이지로 리다이렉트
-      return res.redirect('/timetable');
-    } catch (err) {
-      console.error(err);
-      return res.status(500).render('login', { error: '서버 오류가 발생했습니다.' });
+  try {
+    const { 'login-email': email, 'login-password': password } = req.body;
+
+    const [rows] = await pool.query(
+      `SELECT user_id, password
+         FROM user_profile
+        WHERE email = ?`,
+      [email]
+    );
+
+    if (!rows[0]) {
+      return res.render('login', { error: '등록된 이메일이 아닙니다.' });
     }
 
-  });
+    const isMatch = await bcrypt.compare(password, rows[0].password);
+    if (!isMatch) {
+      return res.render('login', { error: '비밀번호가 일치하지 않습니다.' });
+    }
+
+    const userId = rows[0].user_id;
+    req.session.userId = userId;
+
+    // ✅ 로그인 후 단계별 체크
+    // 1️⃣ 스케줄 확인
+    const [schedules] = await pool.query(
+      `SELECT COUNT(*) AS cnt FROM schedules WHERE user_id = ?`,
+      [userId]
+    );
+    if (!schedules[0].cnt) {
+      return res.redirect('/timetable');
+    }
+
+    // 2️⃣ MBTI 확인
+    const [[user]] = await pool.query(
+      `SELECT mbti, age, grade, kakao_id, smoking_status, meet_pref, 
+              study_goal, vibe_pref,
+              speaking_style, noise_sensitivity, charm_point, strength
+         FROM user_profile WHERE user_id = ?`,
+      [userId]
+    );
+    if (!user.mbti) {
+      return res.redirect('/mbti');
+    }
+
+    // 3️⃣ input01 데이터 확인
+    if (!(user.age && user.grade && user.kakao_id && user.smoking_status && user.meet_pref)) {
+      return res.redirect('/input01');
+    }
+
+    // 4️⃣ input02 데이터 확인
+    if (!(user.study_goal && user.vibe_pref)) {
+      return res.redirect('/input02');
+    }
+
+    // 5️⃣ input03 데이터 확인
+    if (!(user.speaking_style && user.noise_sensitivity && user.charm_point && user.strength)) {
+      return res.redirect('/input03');
+    }
+
+    // 6️⃣ 모든 정보가 있으면 내 프로필 페이지로
+    return res.redirect(`/users/${userId}`);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).render('login', { error: '서버 오류가 발생했습니다.' });
+  }
+});
+
   
 
 // ■ ② POST /timetable — 저장 후 MBTI 페이지로 이동
@@ -584,6 +651,16 @@ app.post('/letter-list', async (req, res, next) => {
 app.use('/partner-survey', partnerSurveyRouter);
 const findPartnerRouter = require('./routes/find-partner-router');
 app.use('/', findPartnerRouter);
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('로그아웃 중 오류 발생!');
+    }
+    res.redirect('/login'); // 로그아웃 후 로그인 페이지로 리다이렉트
+  });
+});
 
 // 4. 서버 시작
 const PORT = 3000;
