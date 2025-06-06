@@ -35,30 +35,27 @@
     <!-- 오른쪽 메인 섹션 -->
     <section class="main-content">
       <h3>나와 일치하는 공강시간</h3>
-      <!-- user-detail.ejs 의 schedule-grid 부분만 바꾼 예시 -->
       <div class="schedule-grid">
+        <!-- 1) 맨 왼쪽 최상단 빈 칸 + 요일 헤더(월~금) -->
         <div class="cell header"></div>
-        <div class="cell header">월</div>
-        <div class="cell header">화</div>
-        <div class="cell header">수</div>
-        <div class="cell header">목</div>
-        <div class="cell header">금</div>
-      
-        <%
-          const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18];
-          const days = [1, 2, 3, 4, 5];
-        %>
-      
-        <% hours.forEach(hour => { %>
-          <div class="cell time"><%= hour %>:00~<%= hour + 1 %>:00</div>
-          
-          <% days.forEach(day => { %>
-            <%
-              const slot = matchSlots.find(s => s.day === day && s.hour === hour);
-            %>
-            <div class="cell slot <%= slot && slot.match ? 'match' : '' %>"></div>
-          <% }); %>
+        <% ['월','화','수','목','금'].forEach(dayName => { %>
+          <div class="cell header"><%= dayName %>요일</div>
         <% }); %>
+
+        <!-- 2) 시간별 행: 10:00~11:00부터 18:00~19:00까지 -->
+        <% for (let displayHour = 10; displayHour <= 18; displayHour++) { %>
+          <!-- 2-1) 왼쪽 첫 열: 시간 라벨 -->
+          <div class="cell time">
+            <%= displayHour %>:00~<%= displayHour + 1 %>:00
+          </div>
+          <!-- 2-2) 오른쪽 다섯 열: 요일별 슬롯(slot) -->
+          <% for (let displayDay = 1; displayDay <= 5; displayDay++) {
+               // 서버에서 넘긴 matchSlots 배열에서 같은 (day, hour) 객체 찾기
+               const slot = matchSlots.find(s => s.day === displayDay && s.hour === displayHour);
+          %>
+            <div class="cell slot <%= (slot && slot.match) ? 'match' : '' %>"></div>
+          <% } %>
+        <% } %>
       </div>
 
       <!-- 매력 포인트 & 장점 -->

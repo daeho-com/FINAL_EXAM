@@ -9,11 +9,10 @@
 </head>
 <body>
   <%- include('../components/nav') %>
-  <div class = "nav-bar-empty_box"></div>
 
   <div class="detail-header">
-    <img src="<%= letter.avatar_url %>" alt="<%= letter.name %> 아바타" class="letter-icon">
-    <span><%= letter.name %> 님의 편지</span>
+    <img src="<%= letter.sender_avatar_url %>" alt="<%= letter.sender_name %> 아바타" class="letter-icon">
+    <span><%= letter.sender_name %> 님의 편지</span>
   </div>
   
   <% if (letter.status === 'pending') { %>
@@ -26,15 +25,23 @@
     <div class="letter-content hidden">
       <pre>
     안녕하세요!
-    저는 “<%= letter.university %>” “<%= letter.department %>” 
-    “<%= letter.grade %>학년”에 재학 중인 “<%= letter.name %>”입니다.
+    저는 <strong><%= letter.sender_university %></strong>, <strong><%= letter.sender_department %></strong>, <strong><%= letter.sender_grade %>학년</strong>에 재학 중인 <strong>“<%= letter.sender_name %>”</strong>입니다.
     
-    상세페이지를 보고 정말 잘 맞을 것 같아
-    함께 스터디하고 싶어 연락드려요!
+    공강시간을 함께 보내며 스터디할 친구를 찾고 있습니다!
+    상세페이지를 보고 <strong>저와 잘 맞겠다</strong>는 느낌이 들어 이렇게 연락드리게 되었어요.
+    
+    저의 매력 포인트는 <strong><%= letter.sender_charm_point %></strong>이고,
+    저의 장점은 <strong><%= letter.sender_strength %></strong>입니다.
+    
+    혹시 시간 괜찮으시면 꼭 같이 스터디했으면 좋겠습니다!
       </pre>
-      <a href="/users/<%= letter.sender_id %>">
-        “<%= letter.name %>” 상세페이지 보기
-      </a>
+    
+      <!-- 보낸 사람 프로필 페이지로 이동할 수 있는 링크 -->
+      <p>
+        <a href="/users/<%= letter.sender_id %>">
+          “<%= letter.sender_name %>”님의 상세페이지 보기 →
+        </a>
+      </p>
     </div>
   
     <!-- ★ 여기에 수락/거절 버튼을 오직 receiver만 보이게 -->
@@ -48,12 +55,36 @@
     <!-- **수락된 편지** -->
     <div class="result-message accepted">
       <p>🤝 축하드려요! 상대방이 수락했습니다!!</p>
+        <!-- 여기서 카카오톡 아이디를 보여줍니다 -->
+        <% if (currentUserId === letter.receiver_id) { %>
+          <!-- 내가 받는 사람이라면, 상대는 보낸 사람 -->
+          <p>
+            상대방 카카오톡 ID: 
+            <strong><%= letter.sender_kakao %></strong>
+          </p>
+          <div class = "empty-box-box"></div>
+          <p>
+            카카오톡 ID 친구추가 하는 방법!! <br><br>
+            카카오톡 홈화면 -> 돋보기 옆 사람 아이콘 클릭! -> 카카오톡 ID 클릭! ->친구 카카오톡 ID 검색 후 친구추가!! -> 다시 카카오톡 홈화면으로!! -> 상단에 있는 설정 아이콘 클릭! -> "친구 관리" 클릭! -> 친구 목록 새로고침 클릭! -> 성공!!
+          </p>
+        <% } else if (currentUserId === letter.sender_id) { %>
+          <!-- 내가 보낸 사람이라면, 상대는 받는 사람 -->
+          <p>
+            상대방 카카오톡 ID: 
+            <strong><%= letter.receiver_kakao %></strong>
+          </p>
+                    <div class = "empty-box-box"></div>
+          <p>
+            카카오톡 ID 친구추가 하는 방법!! <br><br>
+            카카오톡 홈화면 -> 돋보기 옆 사람 아이콘 클릭! -> 카카오톡 ID 클릭! ->친구 카카오톡 ID 검색 후 친구추가!! -> 다시 카카오톡 홈화면으로!! -> 상단에 있는 설정 아이콘 클릭! -> "친구 관리" 클릭! -> 친구 목록 새로고침 클릭! -> 성공!!
+          </p>
+        <% } %>
     </div>
 
   <% } else { %>
     <!-- **거절된 편지** -->
     <div class="result-message rejected">
-      <p>😔 거절 당하셨습니다 ㅠ.ㅠ</p>
+      <p>😔 이미 매칭 되셨습니다 ㅠㅠ</p>
     </div>
   <% } %>
 

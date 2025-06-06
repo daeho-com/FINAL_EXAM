@@ -11,21 +11,19 @@
   <link rel="stylesheet" href="/components/push-btn.css">
 </head>
 <body>
-  <div class = "nav-bar-empty_box"></div>
-
   <div class="main-wrap">
 
     <div class="page-title">스터디 상대 찾기</div>
     <div class="filter-btns">
       <button
-            class="filter-btn <%= query.mbti === mySurvey.mbti ? 'selected' : '' %>"
+            class="filter-btn <%= query.mbti === mySurvey.mbti ? 'btn-primary' : 'btn-outline' %>"
             data-filter="mbti"
             data-value="<%= mySurvey.mbti %>">
             MBTI: <%= mySurvey.mbti || '전체' %>
       </button>
          <!-- 2) 만남 선호 방식 필터 -->
       <button
-        class="filter-btn <%= query.meet_pref === mySurvey.meet_pref ? 'selected' : '' %>"
+        class="filter-btn <%= query.meet_pref === mySurvey.meet_pref ? 'btn-primary' : 'btn-outline' %>"
         data-filter="meet_pref"
         data-value="<%= mySurvey.meet_pref %>">
         만남 선호: <%= mySurvey.meet_pref || '전체' %>
@@ -33,25 +31,25 @@
 
         <!-- 3) 공부 목적 필터 -->
       <button
-        class="filter-btn <%= query.study_goal === mySurvey.study_goal ? 'selected' : '' %>"
+        class="filter-btn <%= query.study_goal === mySurvey.study_goal ? 'btn-primary' : 'btn-outline' %>"
         data-filter="study_goal"
         data-value="<%= mySurvey.study_goal %>">
         공부 목적: <%= mySurvey.study_goal || '전체' %>
       </button>
-      <button class="filter-btn <%= query.smoking_status === mySurvey.smoking_status ? 'selected' : '' %>" data-filter="smoking_status" data-value="<%= mySurvey.smoking_status %>">
+      <button class="filter-btn <%= query.smoking_status === mySurvey.smoking_status ? 'btn-primary' : 'btn-outline' %>" data-filter="smoking_status" data-value="<%= mySurvey.smoking_status %>">
         흡연 여부: <%= mySurvey.smoking_status || '전체' %>
       </button>
     </div>
     <div class="table-box">
       <div class="table-row header-row">
-        <div class="table-cell cell-id">id</div>
-        <div class="table-cell cell-user">user</div>
-        <div class="table-cell cell-name">Name</div>
-        <div class="table-cell cell-age">age</div>
-        <div class="table-cell cell-grade">grade</div>
-        <div class="table-cell cell-dept">department</div>
-        <div class="table-cell cell-uni">university</div>
-        <div class="table-cell cell-overlap">공강겹침</div>
+        <div class="table-cell cell-id">번호</div>
+        <div class="table-cell cell-user">프로필</div>
+        <div class="table-cell cell-name">이름</div>
+        <div class="table-cell cell-age">나이</div>
+        <div class="table-cell cell-grade">학년</div>
+        <div class="table-cell cell-dept">소속학과</div>
+        <div class="table-cell cell-uni">소속대학</div>
+        <div class="table-cell cell-overlap">공강시간</div>
       </div>
       <% if (users && users.length > 0) { %>
         <% users.forEach(function(user, idx) { %>
@@ -69,16 +67,16 @@
               <% } %>
             </div>
             <div class="table-cell cell-name"><%= user.name %></div>
-            <div class="table-cell cell-age"><%= user.age ? user.age : '-' %></div>
-            <div class="table-cell cell-grade"><%= user.grade ? user.grade : '-' %></div>
+            <div class="table-cell cell-age"><%= user.age ? user.age : '-' %>살</div>
+            <div class="table-cell cell-grade"><%= user.grade ? user.grade : '-' %>학년</div>
             <div class="table-cell cell-dept"><%= user.department ? user.department : '-' %></div>
             <div class="table-cell cell-uni"><%= user.university ? user.university : '-' %></div>
-            <div class="table-cell cell-overlap"><%= user.overlap_count %>개</div>
+            <div class="table-cell cell-overlap"><%= user.overlap_count %>개 일치</div>
           </div>
         <% }); %>
       <% } else { %>
-        <div class="table-row">
-          <div class="table-cell" colspan="8" style="text-align:center;">공강이 겹치는 유저가 없습니다.</div>
+        <div class="table-row empty-row">
+          <div class="table-cell empty-cell" colspan="8" style="text-align:center;">공강이 겹치는 유저가 없습니다.</div>
         </div>
       <% } %>
     </div>

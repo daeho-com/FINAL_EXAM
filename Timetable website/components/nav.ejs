@@ -1,83 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>nav-bar</title>
-<link rel="stylesheet" href="/color/color.css" />
-<style>
-  .nav-bar {
-    width: 100vw;
-    padding: 5px 17px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 0;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nav-bar</title>
+    <link rel="stylesheet" href="/color/color.css">
+    <style>
+        .nav-bar {
+            width : 100vw;
+            padding : 5px 17px;
+            display : flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-bottom: 0;
+            box-shadow: 0 1px 16px var(--shadow-color);
+            
+            /* 상단에 고정 */           
+            position: fixed;
+            top : 0;
+            left : 0;
+            z-index : 999;
+        }
+        
+        .nav-bar_logo-box {
+            display: flex;
+            align-items: center;
+            gap: 8px; /* flex 자식 간의 간격*/
 
-  .nav-bar_logo-box {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    border-bottom: 1px solid var(--line-01);
 
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-bottom: 10px;
-  }
+            width : 100%;
+            max-width: 1200px;
+            margin: 0 auto; /*반응형 웹사이트로 중앙에 배치되도록 하기 위함*/
+            padding-bottom : 10px;
+        }
 
-  .nav-bar_logo-img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-  }
+        .nav-bar_logo-img {
+            width : 100px;
+            height : 100px;
+            padding : 4px;
+            object-fit: contain; /* 또는 cover */
+        }
 
-  .nav-bar_logo_name {
-    color: var(--logo-color);
-    font-family: 'Inter', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    margin: 0;
-  }
+        .nav-bar_logo_name {
+            color : var(--logo-color);
+            font-family: 'Inter', sans-serif;
+            font-size : 44px;
+            font-style : normal; /* 기울임 없음 */
+            font-weight : 700; /* bold 수준 */
+            line-height : normal; /* 줄간격 */
+        }
 
-  .nav-bar_menu {
-    margin-left: auto;
-    display: flex;
-    gap: 20px;
-  }
+        .nav-bar_menu {
+            margin-left: auto;
+            display: flex;
+            gap: 20px;
+        }
 
-  .nav-bar_menu a {
-    text-decoration: none;
-    color: var(--logo-color);
-    font-family: 'Inter', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 6px;
-    transition: background-color 0.3s, color 0.3s;
-  }
+        .nav-bar_menu a {
+            text-decoration: none;
+            color: var(--logo-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-  .nav-bar_menu a:hover {
-    background-color: var(--accent-color, #007bff);
-    color: white;
-  }
+        .nav-bar_menu a:hover {
+            background-color: var(--accent-color, #007bff);
+            color: white;
+        }
 
-  .nav-bar_menu span {
-  font-family: 'Inter', sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 6px;
-}
-
-</style>
+        .nav-bar_menu span {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+    </style>
 </head>
 <body>
   <nav class="nav-bar">
     <div class="nav-bar_logo-box">
-      <img src="/img/img01.png" class="nav-bar_logo-img" alt="로고" />
-      <h1 class="nav-bar_logo_name">GBC</h1>
+        <% if (userId) { %>
+            <!-- 로그인된 상태: 클릭하면 /find-partner 로 이동 -->
+             <a href="/find-partner" style="display: flex; align-items: center; text-decoration: none;">
+                <img src="/img/img01.png" class="nav-bar_logo-img" alt="로고" />
+                <h1 class="nav-bar_logo_name">GBC</h1>
+             </a>
+        <% } else { %>
+         <!-- 로그인되지 않은 상태: 기존 모양 그대로(버튼이 아닌 로고만) -->
+            <img src="/img/img01.png" alt="로고" class="nav-bar_logo-img">
+            <span class="nav-bar_logo_name">GBC</span>
+        <% } %>
       <div class="nav-bar_menu">
         <a href="/timetable">시간표</a>
         <a href="/mbti">내 정보 입력</a>
@@ -87,10 +104,13 @@
             <% } else { %>
                 <span style="color: gray; cursor: not-allowed;">내 프로필</span>
             <% } %>
-        <% if (userId) { %>
+          <% if (typeof showLettersLink !== 'undefined' && showLettersLink) { %>
+            <a href="/letters">편지 보러 가기</a>
+          <% } %>
+          
+          <% if (userId) { %>
             <a href="/logout">로그아웃</a>
-        <% } %>
-
+          <% } %>
       </div>
     </div>
   </nav>

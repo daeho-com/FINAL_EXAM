@@ -18,5 +18,7 @@
     --card-bg: #fff;
     --line: #ddd;
     --match: #f04e32;
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --bg-bar: #f8f8fc;
 
 }

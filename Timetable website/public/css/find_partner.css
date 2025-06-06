@@ -10,10 +10,6 @@ body {
     height : 100%;
 }
 
-.nav-bar-empty_box {
-    width : 100vw;
-    height : 13vh;
-}
 
 /* fixed 네비게이션이 위에 보이도록 */
 .nav-bar {
@@ -86,45 +82,65 @@ body {
     outline-offset: -1px;
     display: flex;
     align-items: center;
-    font-size: 24px;
-    font-family: 'Noto Sans', sans-serif;
+    justify-content: center;
+    font-size: 22px;
     font-weight: 600;
     color: #111111;
     cursor: pointer;
-    transition: background 0.2s;
-  }
-  .filter-btn:hover {
-    background: var(--bg-06);
+    transition: background-color 0.2s, color 0.2s;
+    border : none;
   }
 
-  /* 선택된 상태: 배경색과 글자색 변경 */
-.filter-btn.selected {
-  background-color: var(--bg-06); /* 파란색 계열 */
-  color: #fff;
-  border-color: #6E6E6E;
-}
+  .btn-outline {
+    background-color: #fff;
+    color: #111;                
 
-/* 선택된 상태에서 마우스 오버 시 */
-.filter-btn.selected:hover {
-  background-color: #006ae6;
-}
+  }
+  .btn-outline:hover {
+    background-color: #f2f2f2;
+    color: #000;                    
+  }
+
+  .btn-primary {
+    background-color: #4a148c;  /* 보라 계열 예시 */
+    border-color : #4a148c;
+    color: #fff;       
+    outline : none;         
+  }
+  .btn-primary:hover {
+    background-color: var(--bg-06);  /* 호버 시 진한 보라 */
+    border-color: var(--bg-06);
+    color: #fff;
+    outline : none;
+  }
+
+  /* ─── (4) “선택됨” 강조용 클래스(필요 시) ───────────────────────────────── */
+  .btn-primary.active {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
 
   .table-box {
-    width: 1200px;
     position: absolute;
     left: 116px;
     top: 337px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    align-items: flex-start;
+    display: grid;
+    grid-template-columns:
+      80px    /* cell-id */
+      80px    /* cell-user */
+      200px   /* cell-name */
+      150px   /* cell-age */
+      150px   /* cell-grade */
+      300px   /* cell-dept */
+      240px   /* cell-uni */
+      100px;  /* cell-overlap: 칸이 조금 작아도 되면 줄여도 됨 */
+    row-gap: 24px; /* 행 간격 없이 border 로만 구분 */
   }
   .table-row {
-    display: flex;
-    align-items: center;
+    display: contents;
+
   }
   .header-row {
-    font-family: 'Noto Sans', sans-serif;
     font-size: 24px;
     font-weight: 600;
     color: #000;
@@ -136,16 +152,47 @@ body {
     justify-content: center;
     padding: 4px;
     word-wrap: break-word;
+    font-size : 20px;
+    font-weight : 400;
   }
   .cell-id { width: 80px; height: 80px; }
   .cell-user { width: 80px; height: 80px; }
   .cell-name { width: 200px; height: 80px; }
   .cell-age { width: 150px; height: 80px; }
   .cell-grade { width: 150px; height: 80px; }
-  .cell-dept { width: 300px; height: 80px; }
-  .cell-uni { width: 240px; height: 80px; }
+  .cell-dept { width: 250px; height: 80px; }
+  .cell-uni { width: 200px; height: 80px; }
   .table-cell img {
     width: 80px;
     height: 80px;
     border-radius: 20px;
   }
+
+  .no-data {
+  display: contents; /* contents 여전히 각 .no-data-cell을 그리드에서 늘어뜨리기 위함 */
+  }
+  .no-data-cell {
+    grid-column: 1 / -1; /* 1열부터 마지막열까지 병합 */
+    text-align: center;
+    padding: 40px 0;
+    font-size: 20px;
+    color: #666;
+    background: #fafafa;
+    border-bottom: 1px solid #eee;
+  }
+
+  /* “비어있는(empty) 행” 은 flex 너비를 100%로 채우도록 */
+.table-row.empty-row {
+  display: flex;           /* (기존 .table-row가 이미 flex였다면 재선언 불필요) */
+  justify-content: center; /* 가운데 정렬(필요하면) */
+  width : 30vw;
+}
+
+/* empty-cell 만 화면 가득 채우기 */
+.table-row.empty-row .empty-cell {
+  width : 100%;
+  white-space: nowrap;     /* 줄바꿈 방지 */
+  font-size: 24px;         /* 원하시는 크기 조정 */
+  color: #666;             /* 원하는 색상으로 조정 */
+  padding: 16px 0px;         /* 위아래 여백 */
+}

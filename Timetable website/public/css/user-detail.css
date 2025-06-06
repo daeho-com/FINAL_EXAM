@@ -123,3 +123,48 @@
     font-size : 20px;
   }
   
+  /* user-detail.css (또는 해당 EJS에서 불러오는 CSS) */
+
+.schedule-grid {
+  display: grid;
+  /* 첫 번째 열은 ‘시간 라벨’ 칸(폭 80px), 이후 5개 열은 동일 비율(1fr) */
+  grid-template-columns: 80px repeat(5, 1fr);
+  gap: 2px;
+  margin-bottom: 24px;
+}
+
+.schedule-grid .cell {
+  border: 1px solid #ddd;
+  padding: 6px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* 헤더(요일) */
+.schedule-grid .cell.header {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+/* 시간 라벨(왼쪽 첫 열) */
+.schedule-grid .cell.time {
+  background-color: #fafafa;
+  color: #333;
+  font-weight: 500;
+}
+
+/* 빈 슬롯(공강이 아닌 칸): 흰 배경 그대로 */
+.schedule-grid .cell.slot {
+  background-color: #fff;
+}
+
+/* 공강(match=true)인 슬롯만 파란색으로 강조 */
+.schedule-grid .cell.slot.match {
+  background-color: #b3e5fc; /* 연파랑 (꼭 이 색이 아니어도 됩니다) */
+}
+
+/* 마우스 오버 시 조금 더 진하게 */
+.schedule-grid .cell.slot.match:hover {
+  background-color: #81d4fa;
+  cursor: pointer;
+}

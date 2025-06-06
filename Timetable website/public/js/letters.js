@@ -15,10 +15,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const html = await res.text();
       detailEl.innerHTML = html;
 
+      // ② 편지 이미지(우편 아이콘) 선택
+      const envelopeImg = detailEl.querySelector('.letter-image img');
+      const contentDiv  = detailEl.querySelector('.letter-content');
+
+      if (envelopeImg && contentDiv) {
+        // 초기 로드시 content는 hidden 클래스를 가지고 있어야 함
+        contentDiv.classList.add('hidden');
+
+        envelopeImg.addEventListener('click', () => {
+          contentDiv.classList.toggle('hidden');
+        });
+      }
+
       // ③ 아이콘 토글
       const icon    = detailEl.querySelector('.letter-icon');
       const content = detailEl.querySelector('.letter-content');
       icon.addEventListener('click', () => content.classList.toggle('hidden'));
+
 
       // ④ 수락/거절 버튼 바인딩
       detailEl.querySelector('.btn-accept')
