@@ -5,11 +5,21 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const session = require('express-session'); 
+const http    = require('http');              // ← 추가
+const { Server } = require('socket.io');      // ← 추가
 const app = express();
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const partnerSurveyRouter = require('./routes/partner-survey-route');
 
+const server = http.createServer(app);        // ← express 앱을 http 서버에 붙이고
+const io = new Server(server);                // ← Socket.IO 서버 생성
+
+// socket.io 연결 핸들러
+io.on('connection', socket => {
+  console.log('Socket connected:', socket.id);
+  // join-room, signal 이벤트 처리...
+});
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.naver.com', // Office 365 SMTP 서버
@@ -667,8 +677,34 @@ app.use('/partner-survey', partnerSurveyRouter);
 const findPartnerRouter = require('./routes/find-partner-router');
 app.use('/', findPartnerRouter);
 
+const videoConnRouter = require('./routes/videoConnectionRouter');
+const callRoomListRouter = require('./routes/call-room_list_router');
+// app.js
+
+app.use('/', videoConnRouter);
+app.use('/', callRoomListRouter);
+
+// ─── Socket.IO signaling ────────────────────────────────
+io.on('connection', socket => {
+  socket.on('join-room', roomId => {
+    socket.join(roomId);
+    socket.to(roomId).emit('user-connected', socket.id);
+
+    socket.on('signal', ({ roomId, data }) => {
+      // 방에 있는 다른 피어에게 신호 전달
+      socket.to(roomId).emit('signal', { data });
+    });
+
+    socket.on('disconnect', () => {
+      socket.to(roomId).emit('user-disconnected', socket.id);
+    });
+  });
+});
+
+
+
 // 4. 서버 시작
 const PORT = 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`✅ 서버 실행 중: http://localhost:${PORT}`);
 });

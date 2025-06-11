@@ -1,0 +1,77 @@
+/* 브라우저 기본 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* 패딩, 보더 포함한 크기 계산 */
+  }
+
+body {
+    width : 100vW;
+    height : 100vh;
+    background-color: var(--bg-03);
+}
+
+.nav-bar-empty_box {
+    width : 100vw;
+    height : 20vh;
+}
+
+
+/* 방 목록 레이아웃 */
+.rooms-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.room-list {
+  list-style: none;
+  padding: 0;
+}
+.room-item {
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: background .2s;
+}
+.room-item:hover {
+  background: #f0f8ff;
+}
+
+/* 모달 오버레이 */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+}
+.modal-content button {
+  margin: 0 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+#modal-yes {
+  background: #4caf50;
+  color: #fff;
+}
+#modal-no {
+  background: #f44336;
+  color: #fff;
+}

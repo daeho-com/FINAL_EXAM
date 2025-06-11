@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Room – <%= roomId %></title>
+  <link rel="stylesheet" href="/css/video-connection.css" />
+</head>
+<body>
+
+
+  <!-- 방 제목 + 나가기 버튼 -->
+  <div class="video-page">
+    <header class="video-header">
+      <h2 class="room-title">방: <%= roomName %></h2>
+      <button id="btn-leave" class="btn-leave">방 나가기</button>
+    </header>
+    
+    <!-- 2×2 그리드 레이아웃 -->
+    <div class="video-grid">
+      <video id="video-local" autoplay muted playsinline></video>
+      <video id="video-1" autoplay playsinline></video>
+      <!-- 필요에 따라 최대 4개까지 <video> 추가 -->
+      <video id="video-2" autoplay playsinline></video>
+      <video id="video-3" autoplay playsinline></video>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://unpkg.com/simple-peer@9.11.1/simplepeer.min.js"></script>
+  <script src="/js/video-connection.js" defer></script>
+</body>
+</html>

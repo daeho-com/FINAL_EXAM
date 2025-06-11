@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>화상 통화 방 목록</title>
+  <link rel="stylesheet" href="/css/call-room_list.css">
+</head>
+<body>
+  <%- include('../components/nav') %>
+  <div class="nav-bar-empty_box"></div>
+
+  <main class="rooms-container">
+    <!-- ① 방 생성 버튼 -->
+    <button id="btn-create-room" class="btn-create-room">➕ 방 만들기</button>
+
+    <h2>화상 통화 방 목록</h2>
+    <ul class="room-list">
+      <% rooms.forEach(r => { %>
+      <li class="room-item" 
+          data-room-id="<%= r.room_id %>" 
+          data-max="<%= r.max_participants %>">
+        <%= r.room_name %> (최대 <%= r.max_participants %>명)
+      </li>
+      <% }) %>
+    </ul>
+  </main>
+
+  <!-- ② 입장 확인 모달 -->
+  <div id="join-modal" class="modal hidden">
+    <div class="modal-content">
+      <p>입장하시겠습니까?</p>
+      <button id="modal-yes">예</button>
+      <button id="modal-no">아니오</button>
+    </div>
+  </div>
+
+  <!-- ③ 방 생성 모달 -->
+  <div id="create-modal" class="modal hidden">
+    <div class="modal-content">
+      <p>새 방 설정</p>
+      <input type="text" id="new-room-name" placeholder="방 제목">
+      <input type="number" id="new-room-cap" placeholder="최대 인원" min="1">
+      <button id="modal-create-yes">생성</button>
+      <button id="modal-create-no">취소</button>
+    </div>
+  </div>
+
+  <script src="/js/call-room-list.js" defer></script>
+</body>
+</html>
